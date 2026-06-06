@@ -1,0 +1,40 @@
+<nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark" id="top-navbar">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#"><span class="text-light">SDP</span><span class="text-danger">Inventory</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+        <button class="btn btn-outline-success" type="submit">Search</button>
+        <button class="btn btn-outline-success ms-2" type="submit">Login</button>
+      </form>
+    </div>
+  </div>
+</nav>
+<main>
+  <div class="main-container row vh-100">
+    <div id="side-navbar" class="col-3 col-sm-2 shadow-lg bg-secondary rounded pt-1 pb-3">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link text-white active" aria-current="page" routerLink="/">
+            Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white " aria-current="page" routerLink="/users">
+            Users</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white " aria-current="page" routerLink="/products">
+            Products</a>
+        </li>
+      </ul>
+    </div>
+    <div id="main-body" class="col-9 col-sm-10 p-3">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+</main>
