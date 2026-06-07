@@ -73,7 +73,7 @@ namespace inventory.server.Services.Implementation
 
         public async Task<UserVM> EditUser(UserVM userVM)
         {
-            var userFromDb = _context.Users.FirstOrDefault(u => u.Id == userVM.Id);
+            var userFromDb = await _context.Users.FirstOrDefaultAsync(u => u.Id == userVM.Id);
             if (userFromDb != null)
             {
                 userFromDb.Name = userVM.Name;

@@ -37,6 +37,10 @@ namespace inventory.server.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> GetUser(int id)
         {
+            if(id<=0)
+            {
+                return BadRequest(new { message = "Invalid User Id" });
+            }
             var userVM = await _service.GetUserById(id);
             if (userVM == null)
                 return NotFound(new { message = "Requested data not found" });
@@ -83,12 +87,16 @@ namespace inventory.server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
+            if (id <= 0)
+            {
+                return BadRequest(new { message = "Invalid User Id" });
+            }
             try
             {
                bool result=await _service.DeleteUser(id);
                 if (result)
                 {
-                    return Ok();
+                    return Ok("Successfully Deleted");
                 }
                 else
                 {
