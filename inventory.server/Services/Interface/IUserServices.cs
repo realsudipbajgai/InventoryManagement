@@ -4,7 +4,12 @@ namespace inventory.server.Services.Interface
 {
     public interface IUserServices
     {
-        List<UserVM> GetAllUsers();
-        UserVM GetUserById(int Id);
+        Task<List<UserVM>> GetAllUsers();
+        Task<UserVM?> GetUserById(int Id);
+
+        Task<UserVM> AddUser(UserVM userVM);
+        Task<UserVM> EditUser(UserVM userVM);
+        Task<bool> DeleteUser(int Id);
+
     }
 }

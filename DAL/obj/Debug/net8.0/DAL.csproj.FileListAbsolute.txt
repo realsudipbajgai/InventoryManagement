@@ -12,3 +12,4 @@ D:\Workspace\Projects\InventoryManagementSystem\DAL\obj\Debug\net8.0\refint\DAL.
 D:\Workspace\Projects\InventoryManagementSystem\DAL\obj\Debug\net8.0\DAL.pdb
 D:\Workspace\Projects\InventoryManagementSystem\DAL\obj\Debug\net8.0\DAL.genruntimeconfig.cache
 D:\Workspace\Projects\InventoryManagementSystem\DAL\obj\Debug\net8.0\ref\DAL.dll
+D:\Workspace\Projects\InventoryManagementSystem\DAL\obj\Debug\net8.0\DAL.sourcelink.json
