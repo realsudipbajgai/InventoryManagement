@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, Router } from '@angular/router'
 import { CommonModule } from '@angular/common';
-import { Observable, BehaviorSubject, switchMap } from 'rxjs';
+import { Observable, BehaviorSubject, Subject, startWith, switchMap } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { User } from '../../../../shared/models/User';
 
@@ -11,20 +11,14 @@ import { User } from '../../../../shared/models/User';
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss'
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent {
   constructor(private userService: UserService, private router: Router) { }
   selectedUser: any = null;
-  private usersObj=new BehaviorSubject<User[]>([]);
-  users$=this.usersObj.asObservable();
-  ngOnInit(): void {
-    this.loadUsers();
-  }
-  loadUsers(): void {
-    this.userService.getAllUsers().subscribe(data=>{
-      this.usersObj.next(data);
-    })
-  }
-
+  private refresh$ = new Subject<void>();
+  users$ = this.refresh$.pipe(
+    startWith(void 0),
+    switchMap(() => this.userService.getAllUsers())
+  );
   onUserDetailsClick(user: User) {
     this.selectedUser = user;
   }
@@ -35,14 +29,13 @@ export class UsersComponent implements OnInit {
     this.userService.deleteUser(id).subscribe(data => {
       alert(data.message);
       this.selectedUser = null;
-      this.loadUsers();
+      this.refresh$.next();
     });
   }
   seedTestUsers() {
     this.userService.seedTestUsers().subscribe(data => {
       if (data.success) {
         alert("Insert Successfull");
-        this.loadUsers();
       }
       else {
         alert("Insert Failed");
