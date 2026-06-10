@@ -36,6 +36,7 @@ export class UsersComponent {
     this.userService.seedTestUsers().subscribe(data => {
       if (data.success) {
         alert("Insert Successfull");
+        this.refresh$.next();
       }
       else {
         alert("Insert Failed");
