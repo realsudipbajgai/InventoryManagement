@@ -1,0 +1,28 @@
+.toast-box {
+    box-shadow: 1px 1px 2px gray;
+    font-weight: bold;
+    font-size: 14px;
+    position: fixed;
+    width: 100%;
+    top:55px;
+}
+
+.toast-success {
+    background: #3d8afdd0;
+    color: white
+}
+
+.toast-error {
+    background: #e35d6a;
+    color: white
+}
+
+.toast-info {
+    background: #198754;
+    color: white
+}
+
+.toast-warning {
+    background: #cc9a06;
+    color: white
+}

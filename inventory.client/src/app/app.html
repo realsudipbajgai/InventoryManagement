@@ -15,8 +15,8 @@
   </div>
 </nav>
 <main>
-  <div class="main-container row vh-100">
-    <div id="side-navbar" class="col-3 col-sm-2 shadow-lg bg-secondary rounded pt-1 pb-3">
+  <div class="main-container row vh-100 p-0">
+    <div id="side-navbar" class="col-3 col-sm-2 shadow-lg bg-secondary pt-1 pb-3">
       <ul class="nav flex-column">
         <li class="nav-item">
           <a class="nav-link text-white active" aria-current="page" routerLink="/">
@@ -32,7 +32,8 @@
         </li>
       </ul>
     </div>
-    <div id="main-body" class="col-9 col-sm-10 p-3">
+    <div id="main-body" class="col-9 col-sm-10 p-0">
+      <app-toast></app-toast>
       <router-outlet></router-outlet>
     </div>
   </div>

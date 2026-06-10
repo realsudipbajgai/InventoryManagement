@@ -1,0 +1,7 @@
+<div>
+<!-- <div  class="toast-box toast-success">This is Success message</div> -->
+<div *ngIf="toastType=='success'" class="toast-box toast-success">{{message}}</div>
+<div *ngIf="toastType=='error'" class="toast-box toast-error">{{message}}</div>
+<div *ngIf="toastType=='info'" class="toast-box toast-info">{{message}}</div>
+<div *ngIf="toastType=='warning'" class="toast-box toast-warning">{{message}}</div>
+</div>

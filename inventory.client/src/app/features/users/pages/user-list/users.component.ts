@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Observable, BehaviorSubject, Subject, startWith, switchMap } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { User } from '../../../../shared/models/User';
+import { ToastService } from '../../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-users',
@@ -12,7 +13,9 @@ import { User } from '../../../../shared/models/User';
   styleUrl: './users.component.scss'
 })
 export class UsersComponent {
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(private userService: UserService,
+    private router: Router,
+    private toastService: ToastService) { }
   selectedUser: any = null;
   private refresh$ = new Subject<void>();
   users$ = this.refresh$.pipe(
@@ -27,7 +30,9 @@ export class UsersComponent {
   }
   onDeleteConfirmation(id: number) {
     this.userService.deleteUser(id).subscribe(data => {
-      alert(data.message);
+      if (data.success) {
+        this.toastService.show('success', data.message);
+      }
       this.selectedUser = null;
       this.refresh$.next();
     });
@@ -35,12 +40,9 @@ export class UsersComponent {
   seedTestUsers() {
     this.userService.seedTestUsers().subscribe(data => {
       if (data.success) {
-        alert("Insert Successfull");
-        this.refresh$.next();
+        this.toastService.show('success', data.message);
       }
-      else {
-        alert("Insert Failed");
-      }
+      this.refresh$.next();
     });
   }
 }
