@@ -96,16 +96,30 @@ namespace inventory.server.Controllers
                bool result=await _service.DeleteUser(id);
                 if (result)
                 {
-                    return Ok("Successfully Deleted");
+                    return Ok(new {success=true,message="Successfully Deleted"});
                 }
                 else
                 {
-                    return BadRequest("something went wrong");
+                    return BadRequest(new { success = false, message = "User not found or could not be deleted" });
                 }
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = "Unable to delete movie from database" });
+                return BadRequest(new { success = false, message = "Unabel to delete user. Please try again later" });
+            }
+        }
+
+        [HttpPost("seedtestusers")]
+        public async Task<IActionResult> SeedTestUsers()
+        {
+
+            if (await _service.SeedTestData())
+            {
+                return Ok(new { success = true, message = "Test Data Inserted" });
+            }
+            else
+            {
+                return BadRequest(new { success = false, message = "Test Data insertion failed" });
             }
         }
     }

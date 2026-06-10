@@ -91,5 +91,26 @@ namespace inventory.server.Services.Implementation
                 return null;
             }
         }
+
+        public async Task<bool> SeedTestData()
+        {
+            try
+            {
+                var users = new List<User>
+                {
+                    new User { Name = "Test A", Email = "a@test.com", Phone = "111", Role = "Dev" },
+                    new User { Name = "Test B", Email = "b@test.com", Phone = "222", Role = "QA" },
+                    new User { Name = "Test C", Email = "c@test.com", Phone = "333", Role = "HR" }
+                };
+                await _context.Users.AddRangeAsync(users);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            
+        }
     }
 }

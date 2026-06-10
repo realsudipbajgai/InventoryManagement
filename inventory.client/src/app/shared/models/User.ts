@@ -1,10 +1,10 @@
 export interface User{
-    id:number;
+    id?:number;
     name:string;
     email:string;
     phone:string;
-    address:string;
-    age:number;
+    address:string|null;
+    age:number|null;
     role:string;
-    photoPath:string;
+    photoPath:string|null;
 }

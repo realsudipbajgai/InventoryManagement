@@ -10,6 +10,7 @@ namespace inventory.server.Services.Interface
         Task<UserVM> AddUser(UserVM userVM);
         Task<UserVM> EditUser(UserVM userVM);
         Task<bool> DeleteUser(int Id);
+        Task<bool> SeedTestData();
 
     }
 }

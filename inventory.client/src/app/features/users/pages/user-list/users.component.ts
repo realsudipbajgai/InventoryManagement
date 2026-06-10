@@ -1,7 +1,7 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
-import { RouterLink } from '@angular/router'
+import { Component, OnInit } from '@angular/core';
+import { RouterLink, Router } from '@angular/router'
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject, switchMap } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { User } from '../../../../shared/models/User';
 
@@ -9,44 +9,44 @@ import { User } from '../../../../shared/models/User';
   selector: 'app-users',
   imports: [RouterLink, CommonModule],
   templateUrl: './users.component.html',
-  styleUrl: './users.component.scss',
+  styleUrl: './users.component.scss'
 })
-export class UsersComponent {
-  constructor(private userService: UserService, private changedtr: ChangeDetectorRef) { }
-  //data isnt loading on 1st page load using 1st method
-  //2nd method solves it
-  //----------1st method-----------------------------------------------
-  // users: User[] = [];
-  // ngOnInit(): void {
-  //   this.getAllUsers();
-  // }
-  // getAllUsers(): void {
-  //   this.userService.getAllUsers().subscribe(data => {
-  //     this.users = data;
-  //   });
-  // }
-  //---------------------------------------------------------
-  //2nd method
-  //---------------------------------------------------------
-  // users$!: Observable<User[]>;
-  // ngOnInit(): void {
-  //   this.users$ = this.userService.getAllUsers();
-  // }
-
-
-  //---------------------------------------------------------
-  //3rd method
-  //---------------------------------------------------------
-  users: User[] = [];
+export class UsersComponent implements OnInit {
+  constructor(private userService: UserService, private router: Router) { }
+  selectedUser: any = null;
+  private usersObj=new BehaviorSubject<User[]>([]);
+  users$=this.usersObj.asObservable();
   ngOnInit(): void {
-    this.getAllUsers();
+    this.loadUsers();
   }
-  getAllUsers(): void {
-    this.userService.getAllUsers().subscribe(data => {
-      this.users = data;
-      this.changedtr.detectChanges();
+  loadUsers(): void {
+    this.userService.getAllUsers().subscribe(data=>{
+      this.usersObj.next(data);
+    })
+  }
+
+  onUserDetailsClick(user: User) {
+    this.selectedUser = user;
+  }
+  onUserDeleteClick(user: User) {
+    this.selectedUser = user;
+  }
+  onDeleteConfirmation(id: number) {
+    this.userService.deleteUser(id).subscribe(data => {
+      alert(data.message);
+      this.selectedUser = null;
+      this.loadUsers();
     });
   }
-//---------------------------------------------------------
-
+  seedTestUsers() {
+    this.userService.seedTestUsers().subscribe(data => {
+      if (data.success) {
+        alert("Insert Successfull");
+        this.loadUsers();
+      }
+      else {
+        alert("Insert Failed");
+      }
+    });
+  }
 }

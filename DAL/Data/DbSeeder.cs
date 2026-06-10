@@ -19,12 +19,12 @@ namespace DAL.Data
                 context.Database.EnsureCreated();
                 if (!context.Users.Any())
                 {
-                    context.AddRange(GetCategoriesList());
+                    context.AddRange(GetUsersList());
                     context.SaveChanges();
                 }
             }
         }
-        public static List<User> GetCategoriesList()
+        public static List<User> GetUsersList()
         {
             var categories = new List<User>
             {

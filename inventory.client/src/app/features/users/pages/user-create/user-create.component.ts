@@ -6,7 +6,7 @@ import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-user-create',
-  imports: [RouterLink, FormsModule],
+  imports: [FormsModule],
   templateUrl: './user-create.component.html',
   styleUrl: './user-create.component.scss',
 })
@@ -17,20 +17,19 @@ export class UserCreateComponent {
   createEmptyUser(): User {
     return {
       name: '',
-      id: 0,
-      address: '',
-      age: 0,
       email: '',
+      address: null,
+      age:null,
       phone: '',
       role: '',
-      photoPath: ''
+      photoPath:null
     };
   };
   onSubmit() {
-    this.userService.addUser(this.user).subscribe(data =>
-      alert(data.name + "successfully added to database")
-    );
+    this.userService.addUser(this.user).subscribe(data =>{
+      alert(data.name + "successfully added to database");
     this.router.navigate(['/users']);
+    });
   }
 
   onCancel() {

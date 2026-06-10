@@ -1,51 +1,84 @@
 <div class="d-flex justify-content-between align-items-center">
-    <div class="fw-bold fs-1">List of Employees</div>
-    <div>
-        <button class="btn btn-outline-primary" routerLink="create"> <i class="bi bi-plus-circle me-1"></i>Add New</button>
-    </div>
+  <div class="fw-bold fs-1">List of Employees</div>
+  <div>
+     <button class="btn btn-outline-secondary me-2" (click)="seedTestUsers()"> <i class="bi bi-plus-circle me-1"></i>Seed Test Users</button>
+    <button class="btn btn-outline-primary" routerLink="create"> <i class="bi bi-plus-circle me-1"></i>Add New</button>
+  </div>
 </div>
 <table class="table table-striped">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Role</th>
-            <th scope="col">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let user of users">
-        <!-- <tr *ngFor="let user of (users$|async)"> -->
-            <th scope="row">1</th>
-            <td>{{user.name}}</td>
-            <td>{{user.email}}</td>
-            <td>{{user.phone}}</td>
-            <td>{{user.role}}</td>
-            <td>
-                <a href="#" title="Edit" routerLink="edit/1"><i class="bi bi-pencil-square me-1 text-secondary"></i></a>
-                <a href="#" title="Details" data-bs-toggle="modal" data-bs-target="#userdetails"><i class="bi bi-eye me-1 text-info"></i></a>
-                <a href="#" title="Delete" data-bs-toggle="modal" data-bs-target="#userdelete"> <i class="bi bi-trash text-danger"></i></a>
-            </td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Role</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let user of (users$|async);let i=index">
+      <th scope="row">{{i+1}}</th>
+      <td>{{user.name}}</td>
+      <td>{{user.email}}</td>
+      <td>{{user.phone}}</td>
+      <td>{{user.role}}</td>
+      <td>
+        <button href="#" title="Edit" routerLink="edit/{user.id}" class="btn btn-sm me-1">
+          <i class="bi bi-pencil-square me-1 text-secondary"></i></button>
+        <button type="button" title="Details" data-bs-toggle="modal" data-bs-target="#userdetails"
+          (click)="onUserDetailsClick(user)" class="btn btn-sm me-1">
+          <i class="bi bi-eye me-1 text-info"></i></button>
+        <button href="#" title="Delete" data-bs-toggle="modal" data-bs-target="#userdelete" class="btn btn-sm"
+        (click)="onUserDeleteClick(user)"> <i
+            class="bi bi-trash text-danger"></i></button>
+      </td>
+    </tr>
+  </tbody>
 </table>
 
 <!-- User Details Modal -->
-<div class="modal fade" id="userdetails" tabindex="-1" aria-labelledby="userdetailslabel" aria-hidden="true">
+<div class="modal fade" id="userdetails" tabindex="-1" aria-labelledby="userdetailslabel"
+  aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="userdetailslabel">Employee Details</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        ...
+      <div class="modal-body" *ngIf="selectedUser!=null">
+        <div class="row">
+          <span class="col-sm-2 fw-bold">Name:</span>
+          <span class="col-sm-10">{{selectedUser.name}}</span>
+        </div>
+        <div class="row">
+          <span class="col-sm-2 fw-bold">Email:</span>
+          <span class="col-sm-10">{{selectedUser.email}}</span>
+        </div>
+        <div class="row">
+          <span class="col-sm-2 fw-bold">Phone:</span>
+          <span class="col-sm-10">{{selectedUser.phone}}</span>
+        </div>
+        <div class="row">
+          <span class="col-sm-2 fw-bold">Age:</span>
+          <span class="col-sm-10">{{selectedUser.age}}</span>
+        </div>
+        <div class="row">
+          <span class="col-sm-2 fw-bold">Address:</span>
+          <span class="col-sm-10">{{selectedUser.address}}</span>
+        </div>
+
+        <div class="row">
+          <span class="col-sm-2 fw-bold">Role:</span>
+          <span class="col-sm-10">{{selectedUser.role}}</span>
+        </div>
+        <div class="row">
+          <span class="col-sm-2 fw-bold">Photo:</span>
+          <span class="col-sm-10">{{selectedUser.photoPath}}</span>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>
@@ -59,12 +92,12 @@
         <h1 class="modal-title fs-5" id="userdeletelabel">Delete Employee Record</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        ...
+      <div class="modal-body" *ngIf="selectedUser!=null">
+        Are you sure want to delete <b>{{selectedUser.name}}</b> from database?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary" (click)="onDeleteConfirmation(selectedUser.id)" data-bs-dismiss="modal">Yes</button>
       </div>
     </div>
   </div>

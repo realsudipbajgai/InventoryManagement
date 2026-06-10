@@ -10,5 +10,6 @@ export const routes: Routes = [
     {path:'users',component:UsersComponent},
     {path:'users/create',component:UserCreateComponent},
     {path:'users/edit/:id',component:UserEditComponent},
+    {path:'users/seedtestusers',component:UsersComponent},
     {path:'products',component:ProductListComponent},
 ];
