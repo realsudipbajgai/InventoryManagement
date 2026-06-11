@@ -15,8 +15,11 @@ export class UserService {
     return this.http.get<User[]>(this.apiUrl);
   }
 
+  getUserById(id: number): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/${id}`)
+  }
+
   addUser(user: User): Observable<User> {
-    console.log('inside service:', user);
     const formData = new FormData();
     formData.append('name', user.name);
     formData.append('email', user.email);
@@ -25,21 +28,41 @@ export class UserService {
     if (user.age != null) {
       formData.append('age', user.age.toString());
     }
-    if(user.address){
-    formData.append('address', user.address);
+    if (user.address) {
+      formData.append('address', user.address);
     }
-    if(user.photoPath){
-    formData.append('photoPath', user.photoPath);
+    if (user.photoPath) {
+      formData.append('photoPath', user.photoPath);
     }
     return this.http.post<User>(this.apiUrl, formData);
   }
 
-  deleteUser(id:number):Observable<any>{
+  updateUser(id:number,user: User): Observable<User> {
+    const formData = new FormData();
+    formData.append('id',id.toString());
+    formData.append('name', user.name);
+    formData.append('email', user.email);
+    formData.append('phone', user.phone);
+    formData.append('role', user.role);
+    if (user.age != null) {
+      formData.append('age', user.age.toString());
+    }
+    if (user.address) {
+      formData.append('address', user.address);
+    }
+    if (user.photoPath) {
+      formData.append('photoPath', user.photoPath);
+    }
+
+    return this.http.put<User>(this.apiUrl,formData);
+  }
+
+  deleteUser(id: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
 
-  seedTestUsers():Observable<any>{
-    return this.http.post<any>(`${this.apiUrl}/seedtestusers`,{});
+  seedTestUsers(): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/seedtestusers`, {});
   }
-  
+
 }

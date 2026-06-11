@@ -9,9 +9,6 @@ export class ToastService {
   toast$ = this.toastSubject.asObservable();
 
   show(toastType:string,message:string) {
-    console.log('toastType:',toastType);
-    console.log('Message:',message);
-    
     this.toastSubject.next({toastType,message});
   }
 }

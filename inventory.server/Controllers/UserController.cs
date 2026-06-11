@@ -59,7 +59,7 @@ namespace inventory.server.Controllers
             {
                 return Ok(result);
             }
-        }
+            }
 
         [HttpGet("edit/{id}")]
         public async Task<IActionResult> Edit(int id)

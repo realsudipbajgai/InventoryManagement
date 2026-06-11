@@ -31,7 +31,8 @@ export class UsersComponent {
   onDeleteConfirmation(id: number) {
     this.userService.deleteUser(id).subscribe(data => {
       if (data.success) {
-        this.toastService.show('success', data.message);
+          console.log('NEW TOAST EVENT', data);
+        this.toastService.show('warning', data.message);
       }
       this.selectedUser = null;
       this.refresh$.next();
@@ -40,7 +41,8 @@ export class UsersComponent {
   seedTestUsers() {
     this.userService.seedTestUsers().subscribe(data => {
       if (data.success) {
-        this.toastService.show('success', data.message);
+          console.log('NEW TOAST EVENT', data);
+        this.toastService.show('info', data.message);
       }
       this.refresh$.next();
     });

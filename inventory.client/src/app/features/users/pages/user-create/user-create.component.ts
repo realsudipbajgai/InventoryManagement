@@ -3,6 +3,7 @@ import { Router, RouterLink } from '@angular/router'
 import { FormsModule } from '@angular/forms';
 import { User } from '../../../../shared/models/User';
 import { UserService } from '../../services/user.service';
+import { ToastService } from '../../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-user-create',
@@ -13,7 +14,9 @@ import { UserService } from '../../services/user.service';
 export class UserCreateComponent {
   user: User = this.createEmptyUser();
 
-  constructor(private router: Router, private userService: UserService) { }
+  constructor(private router: Router, 
+    private userService: UserService,
+  private toastService:ToastService) { }
   createEmptyUser(): User {
     return {
       name: '',
@@ -27,7 +30,7 @@ export class UserCreateComponent {
   };
   onSubmit() {
     this.userService.addUser(this.user).subscribe(data =>{
-      alert(data.name + "successfully added to database");
+    this.toastService.show('success', data.name+' added to database');
     this.router.navigate(['/users']);
     });
   }
