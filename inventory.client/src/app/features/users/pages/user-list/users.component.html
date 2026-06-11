@@ -17,7 +17,7 @@
     </tr>
   </thead>
   <tbody>
-      <tr *ngFor="let user of (users$|async);let i=index">
+      <tr *ngFor="let user of users();let i=index">
       <th scope="row">{{i+1}}</th>
       <td>{{user.name}}</td>
       <td>{{user.email}}</td>
@@ -46,35 +46,35 @@
         <h1 class="modal-title fs-5" id="userdetailslabel">Employee Details</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body" *ngIf="selectedUser!=null">
+      <div class="modal-body" *ngIf="selectedUser()">
         <div class="row">
           <span class="col-sm-2 fw-bold">Name:</span>
-          <span class="col-sm-10">{{selectedUser.name}}</span>
+          <span class="col-sm-10">{{selectedUser().name}}</span>
         </div>
         <div class="row">
           <span class="col-sm-2 fw-bold">Email:</span>
-          <span class="col-sm-10">{{selectedUser.email}}</span>
+          <span class="col-sm-10">{{selectedUser().email}}</span>
         </div>
         <div class="row">
           <span class="col-sm-2 fw-bold">Phone:</span>
-          <span class="col-sm-10">{{selectedUser.phone}}</span>
+          <span class="col-sm-10">{{selectedUser().phone}}</span>
         </div>
         <div class="row">
           <span class="col-sm-2 fw-bold">Age:</span>
-          <span class="col-sm-10">{{selectedUser.age}}</span>
+          <span class="col-sm-10">{{selectedUser().age}}</span>
         </div>
         <div class="row">
           <span class="col-sm-2 fw-bold">Address:</span>
-          <span class="col-sm-10">{{selectedUser.address}}</span>
+          <span class="col-sm-10">{{selectedUser().address}}</span>
         </div>
 
         <div class="row">
           <span class="col-sm-2 fw-bold">Role:</span>
-          <span class="col-sm-10">{{selectedUser.role}}</span>
+          <span class="col-sm-10">{{selectedUser().role}}</span>
         </div>
         <div class="row">
           <span class="col-sm-2 fw-bold">Photo:</span>
-          <span class="col-sm-10">{{selectedUser.photoPath}}</span>
+          <span class="col-sm-10">{{selectedUser().photoPath}}</span>
         </div>
       </div>
       <div class="modal-footer">
@@ -92,12 +92,12 @@
         <h1 class="modal-title fs-5" id="userdeletelabel">Delete Employee Record</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body" *ngIf="selectedUser!=null">
-        Are you sure want to delete <b>{{selectedUser.name}}</b> from database?
+      <div class="modal-body" *ngIf="selectedUser()!=null">
+        Are you sure want to delete <b>{{selectedUser().name}}</b> from database?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger" (click)="onDeleteConfirmation(selectedUser.id)" data-bs-dismiss="modal">Yes</button>
+        <button type="button" class="btn btn-danger" (click)="onDeleteConfirmation(selectedUser().id)" data-bs-dismiss="modal">Yes</button>
       </div>
     </div>
   </div>
