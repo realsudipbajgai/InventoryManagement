@@ -5,16 +5,9 @@
     position: fixed;
     width: 100%;
     top: 55px;
-    opacity: 1;
     transform: translateY(0);
     transition: all 0.3s ease;
 }
-.toast-hide{
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-10px);
-}
-
 .toast-success {
     background: #3d8afdd0;
     color: white

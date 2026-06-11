@@ -4,4 +4,7 @@
     <div *ngIf="toastType=='info'" class="toast-box toast-info">{{message}}</div>
     <div *ngIf="toastType=='warning'" class="toast-box toast-warning">{{message}}</div>
 </div> -->
-<div class="toast-box" [ngClass]="'toast-'+toastType" [class.toast-hide]="!showToast">{{message}}</div>
+<!-- <div class="toast-box" [ngClass]="'toast-'+toastData()!.toastType">{{toastData()!.message}}</div> -->
+<div *ngIf="toastData()" [ngClass]="'toast-'+toastData()!.toastType" class="toast-box">
+      {{ toastData()!.message }}
+    </div>

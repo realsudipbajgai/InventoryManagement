@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef, signal} from '@angular/core';
+import { Component, ChangeDetectorRef, inject} from '@angular/core';
 import { ToastService } from '../../services/toast.service';
 import { CommonModule } from '@angular/common';
 
@@ -9,22 +9,6 @@ import { CommonModule } from '@angular/common';
   styleUrl: './toast.component.scss',
 })
 export class ToastComponent {
-  message = '';
-  toastType = '';
-  showToast = false;
-  constructor(private toastService: ToastService, private cd: ChangeDetectorRef) { }
-  ngOnInit() {
-    this.toastService.toast$.subscribe(data => {
-      if (!data) return;
-      this.message = data.message;
-      this.toastType = data.toastType;
-      this.showToast = true;
-      setTimeout(() => {
-        this.message = '';
-        this.toastType = '';
-        this.showToast = false;
-        this.cd.detectChanges();
-      }, 3000)
-    });
-  }
+  private toastService=inject(ToastService);
+  readonly toastData=this.toastService.toast;
 }
