@@ -7,4 +7,5 @@ export interface User{
     age:number|null;
     role:string;
     photoPath:string|null;
+    photo:File|null;
 }

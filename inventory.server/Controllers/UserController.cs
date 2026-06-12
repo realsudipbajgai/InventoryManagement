@@ -11,9 +11,11 @@ namespace inventory.server.Controllers
     public class UserController : ControllerBase
     {
         private IUserServices _service;
-        public UserController(IUserServices service)
+        private readonly IWebHostEnvironment _env;
+        public UserController(IUserServices service,IWebHostEnvironment env)
         {
             _service = service;
+            _env = env;
         }
 
         [HttpGet]
@@ -50,6 +52,35 @@ namespace inventory.server.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] UserVM userVM)
         {
+            if (userVM.Photo != null && userVM.Photo.Length > 0)
+            {
+                // 1. Get the main project directory path
+                var projectRoot = _env.ContentRootPath;
+
+                // 2. Define the path to wwwroot
+                var wwwrootPath = Path.Combine(projectRoot, "wwwroot");
+
+                // 3. If wwwroot doesn't exist, create it
+                if (!Directory.Exists(wwwrootPath))
+                {
+                    Directory.CreateDirectory(wwwrootPath);
+                }
+                var uploadsFolder = Path.Combine(wwwrootPath, "uploads");
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(userVM.Photo.FileName);
+                var filePath=Path.Combine(uploadsFolder,uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await userVM.Photo.CopyToAsync(fileStream);
+                }
+                // This is the relative path you save to the Database (e.g., "uploads/unique_name.jpg")
+                userVM.PhotoPath = Path.Combine("uploads", uniqueFileName).Replace('\\', '/');
+            }
             var result = await _service.AddUser(userVM);
             if (result == null)
             {

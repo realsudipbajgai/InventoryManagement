@@ -19,7 +19,7 @@ export class UserService {
     return this.http.get<User>(`${this.apiUrl}/${id}`)
   }
 
-  addUser(user: User): Observable<User> {
+  addUser(user: User,file:File|null): Observable<User> {
     const formData = new FormData();
     formData.append('name', user.name);
     formData.append('email', user.email);
@@ -31,8 +31,8 @@ export class UserService {
     if (user.address) {
       formData.append('address', user.address);
     }
-    if (user.photoPath) {
-      formData.append('photoPath', user.photoPath);
+    if(file){
+      formData.append('photo',file,file.name);
     }
     return this.http.post<User>(this.apiUrl, formData);
   }
