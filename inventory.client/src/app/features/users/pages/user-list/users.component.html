@@ -74,7 +74,10 @@
         </div>
         <div class="row">
           <span class="col-sm-2 fw-bold">Photo:</span>
-          <span class="col-sm-10">{{selectedUser().photoPath}}</span>
+          <!-- <span class="col-sm-10">{{selectedUser().photoPath}}</span> -->
+          <span class="col-sm-10">
+            <img src="{{this.serverUrl}}/{{selectedUser().photoPath}}" class="img-fluid">
+          </span>
         </div>
       </div>
       <div class="modal-footer">

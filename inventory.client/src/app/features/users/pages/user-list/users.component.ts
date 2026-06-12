@@ -5,6 +5,7 @@ import { firstValueFrom } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { User } from '../../../../shared/models/User';
 import { ToastService } from '../../../../shared/services/toast.service';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-users',
@@ -17,6 +18,7 @@ export class UsersComponent {
   private toastService = inject(ToastService);
   users = signal<any[]>([]);
   selectedUser = signal<any>(null);
+  serverUrl=environment.serverUrl;
   async ngOnInit() {
     try {
       const data = await firstValueFrom(this.userService.getAllUsers());
@@ -41,6 +43,9 @@ export class UsersComponent {
   }
   onUserDetailsClick(user: User) {
     this.selectUser(user);
+    console.log(user);
+    console.log(this.serverUrl);
+    
   }
   onUserDeleteClick(user: User) {
     this.selectUser(user);
