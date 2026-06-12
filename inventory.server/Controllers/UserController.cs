@@ -3,6 +3,8 @@ using inventory.server.Services.Interface;
 using inventory.server.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using inventory.server.Shared;
+
 
 namespace inventory.server.Controllers
 {
@@ -11,9 +13,11 @@ namespace inventory.server.Controllers
     public class UserController : ControllerBase
     {
         private IUserServices _service;
-        public UserController(IUserServices service)
+        private readonly IWebHostEnvironment _env;
+        public UserController(IUserServices service, IWebHostEnvironment env)
         {
             _service = service;
+            _env = env;
         }
 
         [HttpGet]
@@ -22,13 +26,15 @@ namespace inventory.server.Controllers
             try
             {
                 var users = await _service.GetAllUsers();
-                return Ok(users);
+                var apiResponse = new ApiResponse<IEnumerable<UserVM>> { Success = true, Data = users };
+                return Ok(apiResponse);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new
+                return StatusCode(500, new ApiResponse<object>
                 {
-                    message = "Something went wrong. Please try again later"
+                    Success = false,
+                    Message = "Something went wrong. Please try again later"
                 });
             }
 
@@ -37,75 +43,144 @@ namespace inventory.server.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> GetUser(int id)
         {
-            if(id<=0)
+            try
             {
-                return BadRequest(new { message = "Invalid User Id" });
+                if (id <= 0)
+                {
+                    return BadRequest(new ApiResponse<object> { Success = false, Message = "Invalid User Id" });
+                }
+                var userVM = await _service.GetUserById(id);
+                if (userVM == null)
+                    return NotFound(new ApiResponse<object> { Success = false, Message = "Requested data not found" });
+                return Ok(new ApiResponse<UserVM> { Success = true, Data = userVM });
             }
-            var userVM = await _service.GetUserById(id);
-            if (userVM == null)
-                return NotFound(new { message = "Requested data not found" });
-            return Ok(userVM);
+            catch
+            {
+                return StatusCode(500, new ApiResponse<object> { Success = false, Message = "Unable to fetch user" });
+
+            }
+
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] UserVM userVM)
         {
-            var result = await _service.AddUser(userVM);
-            if (result == null)
+            try
             {
-                return BadRequest("Something went wrong");
+                if (userVM.Photo != null && userVM.Photo.Length > 0)
+                {
+                    // 1. Get the main project directory path
+                    var projectRoot = _env.ContentRootPath;
+
+                    // 2. Define the path to wwwroot
+                    var wwwrootPath = Path.Combine(projectRoot, "wwwroot");
+
+                    // 3. If wwwroot doesn't exist, create it
+                    if (!Directory.Exists(wwwrootPath))
+                    {
+                        Directory.CreateDirectory(wwwrootPath);
+                    }
+                    var uploadsFolder = Path.Combine(wwwrootPath, "uploads");
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(userVM.Photo.FileName);
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await userVM.Photo.CopyToAsync(fileStream);
+                    }
+                    // This is the relative path you save to the Database (e.g., "uploads/unique_name.jpg")
+                    userVM.PhotoPath = Path.Combine("uploads", uniqueFileName).Replace('\\', '/');
+                }
+                var result = await _service.AddUser(userVM);
+                if (result == null)
+                {
+                    return BadRequest(new ApiResponse<object> { Success = false, Message = "Unable to add data. Try again" });
+                }
+                else
+                {
+                    return Ok(new ApiResponse<UserVM> { Success = true, Data =result });
+                }
             }
-            else
+            catch(Exception ex)
             {
-                return Ok(result);
+                return BadRequest(new ApiResponse<object> { Success = false, Message = "Internal server error" });
             }
-            }
+
+        }
 
         [HttpGet("edit/{id}")]
         public async Task<IActionResult> Edit(int id)
         {
-            var userVM = await _service.GetUserById(id);
-            if (userVM == null)
-                return NotFound(new { message = "Requested data not found" });
-            return Ok(userVM);
+            try
+            {
+                var userVM = await _service.GetUserById(id);
+                if (userVM == null)
+                {
+                    return NotFound(new ApiResponse<object> { Success = false, Message = "Requested data not found" });
+                }
+                else
+                {
+                    return Ok(new ApiResponse<UserVM> { Success = true, Data = userVM });
+
+                }
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(new ApiResponse<object> { Success = false, Message = "Internal server error" });
+            }
+          
         }
 
         [HttpPut]
         public async Task<IActionResult> Edit([FromForm] UserVM userVM)
         {
-            var result = await _service.EditUser(userVM);
-            if (result == null)
+            try
             {
-                return BadRequest("Something went wrong");
+                var result = await _service.EditUser(userVM);
+                if (result == null)
+                {
+                    return BadRequest(new ApiResponse<object> { Success = false, Message = "Invalid data selected. Try again." });
+                }
+                else
+                {
+                    return Ok(new ApiResponse<UserVM> { Success = true, Message = "Update Successful", Data = result });
+                }
             }
-            else
+            catch
             {
-                return Ok(result);
+                return BadRequest(new ApiResponse<object> { Success = false, Message = "Internal server error" });
             }
+
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            if (id <= 0)
-            {
-                return BadRequest(new { message = "Invalid User Id" });
-            }
+
             try
             {
-               bool result=await _service.DeleteUser(id);
+                if (id <= 0)
+                {
+                    return BadRequest(new ApiResponse<object> { Success = false, Message = "Invalid User Id" });
+                }
+                bool result = await _service.DeleteUser(id);
                 if (result)
                 {
-                    return Ok(new {success=true,message="Successfully Deleted"});
+                    return Ok(new ApiResponse<object> { Success = true, Message = "Delete Successful" });
                 }
                 else
                 {
-                    return BadRequest(new { success = false, message = "User not found or could not be deleted" });
+                    return BadRequest(new ApiResponse<object> { Success = false, Message = "User not found or could not be deleted" });
                 }
             }
             catch (Exception ex)
             {
-                return BadRequest(new { success = false, message = "Unabel to delete user. Please try again later" });
+                return BadRequest(new ApiResponse<object> { Success = false, Message = "Unable to delete user. Please try again later" });
             }
         }
 
@@ -115,11 +190,11 @@ namespace inventory.server.Controllers
 
             if (await _service.SeedTestData())
             {
-                return Ok(new { success = true, message = "Test Data Inserted" });
+                return Ok(new ApiResponse<object> { Success = true, Message = "Test Data Inserted" });
             }
             else
             {
-                return BadRequest(new { success = false, message = "Test Data insertion failed" });
+                return BadRequest(new ApiResponse<object> { Success = false, Message = "Test Data insertion failed" });
             }
         }
     }

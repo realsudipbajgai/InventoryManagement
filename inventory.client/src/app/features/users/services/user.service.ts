@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../../../shared/models/User';
 import { environment } from '../../../../environments/environment';
+import { ApiResponse } from '../../../shared/models/ApiResponse';
 
 @Injectable({
   providedIn: 'root',
@@ -11,15 +12,15 @@ export class UserService {
   private apiUrl = `${environment.apiUrl}/users`;
   constructor(private http: HttpClient) { }
   //Get All Users
-  getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.apiUrl);
+  getAllUsers(): Observable<ApiResponse<User[]>> {
+    return this.http.get<ApiResponse<User[]>>(this.apiUrl);
   }
 
-  getUserById(id: number): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/${id}`)
+  getUserById(id: number): Observable<ApiResponse<User>> {
+    return this.http.get<ApiResponse<User>>(`${this.apiUrl}/${id}`)
   }
 
-  addUser(user: User): Observable<User> {
+  addUser(user: User,file:File|null): Observable<ApiResponse<User>> {
     const formData = new FormData();
     formData.append('name', user.name);
     formData.append('email', user.email);
@@ -31,13 +32,13 @@ export class UserService {
     if (user.address) {
       formData.append('address', user.address);
     }
-    if (user.photoPath) {
-      formData.append('photoPath', user.photoPath);
+    if(file){
+      formData.append('photo',file,file.name);
     }
-    return this.http.post<User>(this.apiUrl, formData);
+    return this.http.post<ApiResponse<User>>(this.apiUrl, formData);
   }
 
-  updateUser(id:number,user: User): Observable<User> {
+  updateUser(id:number,user: User): Observable<ApiResponse<User>> {
     const formData = new FormData();
     formData.append('id',id.toString());
     formData.append('name', user.name);
@@ -54,7 +55,7 @@ export class UserService {
       formData.append('photoPath', user.photoPath);
     }
 
-    return this.http.put<User>(this.apiUrl,formData);
+    return this.http.put<ApiResponse<User>>(this.apiUrl,formData);
   }
 
   deleteUser(id: number): Observable<any> {

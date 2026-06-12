@@ -16,10 +16,12 @@ public class UserVM
     public string? Address { get; set; }
     public string Role { get; set; }
     public int? Age { get; set; }
+    public IFormFile? Photo { get; set; }
     private string? _photoPath;
     public string? PhotoPath
     {
         get => string.IsNullOrEmpty(_photoPath) ? "defaultperson.jpg" : _photoPath;
         set => _photoPath = value;
     }
+
 }
