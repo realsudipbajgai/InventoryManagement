@@ -13,34 +13,35 @@ import { ToastService } from '../../../../shared/services/toast.service';
 })
 export class UserCreateComponent {
   user: User = this.createEmptyUser();
-  selectedFile:File|null=null;
-  constructor(private router: Router, 
+  selectedFile: File | null = null;
+  constructor(private router: Router,
     private userService: UserService,
-  private toastService:ToastService) { }
+    private toastService: ToastService) { }
   createEmptyUser(): User {
     return {
       name: 'test',
       email: 'test@gmail.com',
       address: 'testaddress',
-      age:29,
+      age: 29,
       phone: '32253235',
       role: 'Admin',
-      photoPath:null,
-      photo:null
+      photoPath: null,
+      photo: null
     };
   };
 
-  onFileSelected(event:any){
-    const file:File=event.target.files[0];
-    if(file)
-    {
-      this.selectedFile=file;
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
     }
   }
   onSubmit() {
-    this.userService.addUser(this.user,this.selectedFile).subscribe(data =>{
-    this.toastService.show('success', data.name+' added to database');
-    this.router.navigate(['/users']);
+    this.userService.addUser(this.user, this.selectedFile).subscribe(result => {
+      if (result.success && result.data) {
+        this.toastService.show('success', result.data.name + ' added to database');
+        this.router.navigate(['/users']);
+      }
     });
   }
 

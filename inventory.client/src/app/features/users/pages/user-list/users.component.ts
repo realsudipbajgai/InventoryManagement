@@ -16,16 +16,23 @@ import { environment } from '../../../../../environments/environment';
 export class UsersComponent {
   private userService = inject(UserService);
   private toastService = inject(ToastService);
-  users = signal<any[]>([]);
+  users = signal<User[]>([]);
   selectedUser = signal<any>(null);
-  serverUrl=environment.serverUrl;
+  serverUrl = environment.serverUrl;
   async ngOnInit() {
     try {
-      const data = await firstValueFrom(this.userService.getAllUsers());
-      this.users.set(data);
+      const result = await firstValueFrom(this.userService.getAllUsers());
+
+      if (result.success && result.data) {
+        this.users.set(result.data);
+      }
+      else {
+        this.toastService.show('error', result.message || 'Failed to load users');
+        this.users.set([]);
+      }
     }
     catch (error) {
-      console.error('failed to load users', error);
+      this.toastService.show('error', 'A critical error occured while feteching data');
     }
   }
   selectUser(user: any) {
@@ -33,19 +40,21 @@ export class UsersComponent {
   }
   async seedTestUsers() {
     try {
-      await firstValueFrom(this.userService.seedTestUsers());
-      this.toastService.show('success', "Test users seeded successfully");
+      var result = await firstValueFrom(this.userService.seedTestUsers());
+      if (result.success) {
+        this.toastService.show('success', result.message);
+      }
+      else {
+        this.toastService.show('error', result.message);
+      }
       this.loadUsers();
     }
     catch (error) {
-      this.toastService.show('error', "Failed to seed data");
+      this.toastService.show('error', result.message);
     }
   }
   onUserDetailsClick(user: User) {
     this.selectUser(user);
-    console.log(user);
-    console.log(this.serverUrl);
-    
   }
   onUserDeleteClick(user: User) {
     this.selectUser(user);
@@ -53,16 +62,29 @@ export class UsersComponent {
 
   async onDeleteConfirmation(id: number) {
     try {
-      await firstValueFrom(this.userService.deleteUser(id));
-      this.loadUsers();
-      this.toastService.show('success', 'Delete Successful');
+      var result = await firstValueFrom(this.userService.deleteUser(id));
+      if (result.success) {
+        
+        this.loadUsers();
+        this.toastService.show('success', result.message);
+      }
+      else{
+        console.log("Delete Failed");
+        
+         this.toastService.show('error', result.message);
+      }
+
     }
     catch {
-      this.toastService.show('error', 'Delete Failed');
+      this.toastService.show('error', 'A critical error occured while communicating with the server. Refresh the page and try again.');
     }
   }
   async loadUsers() {
-    const updatedUsers = await firstValueFrom(this.userService.getAllUsers());
-    this.users.set(updatedUsers);
+    const result = await firstValueFrom(this.userService.getAllUsers());
+    if (result.success && result.data) {
+      console.log("Inside load users");
+      
+      this.users.set(result.data);
+    }
   }
 }

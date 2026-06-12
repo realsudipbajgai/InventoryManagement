@@ -35,25 +35,27 @@ export class UserEditComponent {
       return;
     }
     this.userService.getUserById(this.userId).subscribe({
-      next: (data) => {
-        this.editForm.patchValue(data);
+      next: (result) => {
+        if (result.success && result.data) {
+          this.editForm.patchValue(result.data);
+        }
       },
-      error: () => {
-        this.toast.show('error', 'Failed to load user');
+      error: (err) => {
+        this.toast.show('error', err||'Failed to load user');
         this.router.navigate(['users']);
       }
     });
   }
   onSubmit() {
-    console.log(this.editForm.value);
     this.userService.updateUser(this.userId, this.editForm.value).subscribe({
-      next: (data) => {
-        this.toast.show('success', 'Update Successful')
-        this.router.navigate(['users']);
-
+      next: (result) => {
+        if (result.success) {
+          this.toast.show('success', result.message)
+          this.router.navigate(['users']);
+        }
       },
-      error: () => {
-        this.toast.show('error', 'Unable to update record');
+      error: (err) => {
+        this.toast.show('error', err||'Unable to update the record');
         this.router.navigate(['users']);
       }
     });

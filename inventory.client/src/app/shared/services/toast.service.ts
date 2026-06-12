@@ -18,6 +18,6 @@ export class ToastService {
     // 4. Automatically clear it after 3 seconds
     setTimeout(() => {
       this.toastState.set(null);
-    }, 3000);
+    }, 5000);
   }
 }
