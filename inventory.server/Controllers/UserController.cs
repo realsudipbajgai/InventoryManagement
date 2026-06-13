@@ -168,9 +168,25 @@ namespace inventory.server.Controllers
                 {
                     return BadRequest(new ApiResponse<object> { Success = false, Message = "Invalid User Id" });
                 }
+                var userVM = await _service.GetUserById(id);
                 bool result = await _service.DeleteUser(id);
                 if (result)
                 {
+                    if(userVM!=null&& !string.IsNullOrEmpty(userVM.PhotoPath))
+                    {
+                        var fullFilePath = Path.Combine(_env.ContentRootPath, "wwwroot", userVM.PhotoPath);
+                        try
+                        {
+                            if (System.IO.File.Exists(fullFilePath))
+                            {
+                                System.IO.File.Delete(fullFilePath);
+                            }
+                        }
+                        catch(Exception ex)
+                        {
+                            Console.WriteLine($"File deletion failed:{ex.Message}");
+                        }
+                    }
                     return Ok(new ApiResponse<object> { Success = true, Message = "Delete Successful" });
                 }
                 else
