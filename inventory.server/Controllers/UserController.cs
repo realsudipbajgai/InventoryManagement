@@ -21,7 +21,7 @@ namespace inventory.server.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Users()
+        public async Task<IActionResult> Users()
         {
             try
             {
@@ -41,7 +41,7 @@ namespace inventory.server.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetUser(int id)
+        public async Task<IActionResult> GetUser(int id)
         {
             try
             {
