@@ -39,7 +39,9 @@
     <div class="row mb-3">
         <label for="role" class="col-sm-2 col-form-label">Photo</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" id="photoPath" formControlName="photoPath">
+          <img *ngIf="editForm.get('photoPath')?.value" 
+             [src]="serverUrl + '/' + editForm.get('photoPath')?.value" 
+             alt="User Photo" class="img-fluid">
         </div>
     </div>
     <button type="submit" class="btn btn-sm btn-primary">Update</button>

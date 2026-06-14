@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import { User } from '../../../../shared/models/User';
 import { ToastService } from '../../../../shared/services/toast.service';
+import { BaseComponent } from '../../../../shared/base/base.component';
 
 @Component({
   selector: 'app-user-edit',
@@ -12,7 +13,7 @@ import { ToastService } from '../../../../shared/services/toast.service';
   templateUrl: './user-edit.component.html',
   styleUrl: './user-edit.component.scss',
 })
-export class UserEditComponent {
+export class UserEditComponent extends BaseComponent {
   userId!: number;
   editForm: FormGroup = new FormGroup({
     name: new FormControl(''),
@@ -26,7 +27,8 @@ export class UserEditComponent {
   constructor(private route: ActivatedRoute,
     private userService: UserService,
     private router: Router,
-    private toast: ToastService) { }
+    private toast: ToastService) { super()}
+    
   ngOnInit(): void {
     this.userId = Number(this.route.snapshot.paramMap.get('id'));
     if (isNaN(this.userId)) {
@@ -38,6 +40,9 @@ export class UserEditComponent {
       next: (result) => {
         if (result.success && result.data) {
           this.editForm.patchValue(result.data);
+          console.log(result.data.photoPath);
+          this.editForm.get('photoPath')?.updateValueAndValidity();
+          // this.photoUrl=this.serverUrl+'/'+result.data.photoPath;
         }
       },
       error: (err) => {
