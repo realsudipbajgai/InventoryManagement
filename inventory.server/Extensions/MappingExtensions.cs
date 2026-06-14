@@ -38,6 +38,65 @@ namespace inventory.server.Extensions
 
     public static class ProductMappingExtensions
     {
+        public static CategoryVM toCategoryVM(this Category category)
+        {
+            return new CategoryVM
+            {
+                Id = category.Id,
+                Name = category.Name,
+                CreatedAt = category.CreatedAt,
+                UpdatedAt = category.UpdatedAt,
+                ProductsVM=null,
+            };
+        }
+
+        public static Category toCategory(this CategoryVM categoryVM)
+        {
+            return new Category
+            {
+                Id = categoryVM.Id,
+                Name = categoryVM.Name,
+                CreatedAt = categoryVM.CreatedAt,
+                UpdatedAt = categoryVM.UpdatedAt,
+                Products = null,
+
+            };
+        }
+        public static ProductCreateRequestVM toProductVM(this Product product)
+        {
+            return new ProductCreateRequestVM
+            {
+                Id = product.Id,
+                CategoryId = product.CategoryId,
+                Name = product.Name,
+                Description = product.Description,
+                PurchaseCost = product.PurchaseCost,
+                PurchaseDate = product.PurchaseDate,
+                QuantityInStock = product.QuantityInStock,
+                SerialNumber = product.SerialNumber,
+                Status = product.Status,
+                CreatedAt = product.CreatedAt,
+                UpdatedAt = product.UpdatedAt,
+            };
+        }
+
+        public static Product toProduct(this ProductCreateRequestVM productVm)
+        {
+            return new Product
+            {
+                Id = productVm.Id,
+                CategoryId = productVm.CategoryId,
+                Name = productVm.Name,
+                Description = productVm.Description,
+                PurchaseCost = productVm.PurchaseCost,
+                PurchaseDate = productVm.PurchaseDate,
+                QuantityInStock = productVm.QuantityInStock,
+                SerialNumber = productVm.SerialNumber,
+                Status = productVm.Status,
+                CreatedAt = productVm.CreatedAt,
+                UpdatedAt = productVm.UpdatedAt,
+            };
+        }
 
     }
 }
