@@ -4,6 +4,7 @@ import { UsersComponent } from './features/users/pages/user-list/users.component
 import { UserCreateComponent } from './features/users/pages/user-create/user-create.component';
 import { UserEditComponent } from './features/users/pages/user-edit/user-edit.component';
 import {ProductListComponent} from './features/products/pages/product-list/product-list.component'
+import { CategoriesComponent } from './features/categories/pages/categories/categories.component';
 
 export const routes: Routes = [
     {path:'',component:HomeComponent},
@@ -12,4 +13,5 @@ export const routes: Routes = [
     {path:'users/edit/:id',component:UserEditComponent},
     {path:'users/seedtestusers',component:UsersComponent},
     {path:'products',component:ProductListComponent},
+    {path:'categories',component:CategoriesComponent}
 ];

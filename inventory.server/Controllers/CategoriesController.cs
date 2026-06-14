@@ -7,7 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace inventory.server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBase
     {
