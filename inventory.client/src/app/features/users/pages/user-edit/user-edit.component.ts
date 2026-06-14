@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink, ActivatedRoute, Router } from '@angular/router'
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Observable, map,tap } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { User } from '../../../../shared/models/User';
 import { ToastService } from '../../../../shared/services/toast.service';
@@ -14,7 +15,12 @@ import { BaseComponent } from '../../../../shared/base/base.component';
   styleUrl: './user-edit.component.scss',
 })
 export class UserEditComponent extends BaseComponent {
+  private userService = inject(UserService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private toast = inject(ToastService);
   userId!: number;
+  user$!: Observable<any>;
   editForm: FormGroup = new FormGroup({
     name: new FormControl(''),
     email: new FormControl(''),
@@ -24,11 +30,6 @@ export class UserEditComponent extends BaseComponent {
     role: new FormControl(''),
     photoPath: new FormControl(''),
   });
-  constructor(private route: ActivatedRoute,
-    private userService: UserService,
-    private router: Router,
-    private toast: ToastService) { super()}
-    
   ngOnInit(): void {
     this.userId = Number(this.route.snapshot.paramMap.get('id'));
     if (isNaN(this.userId)) {
@@ -36,20 +37,14 @@ export class UserEditComponent extends BaseComponent {
       this.router.navigate(['users']);
       return;
     }
-    this.userService.getUserById(this.userId).subscribe({
-      next: (result) => {
-        if (result.success && result.data) {
-          this.editForm.patchValue(result.data);
-          console.log(result.data.photoPath);
-          this.editForm.get('photoPath')?.updateValueAndValidity();
-          // this.photoUrl=this.serverUrl+'/'+result.data.photoPath;
+    this.user$ = this.userService.getUserById(this.userId).pipe(
+      map(resp => resp.data),
+      tap(data=>{
+        if(data){
+          this.editForm.patchValue(data);
         }
-      },
-      error: (err) => {
-        this.toast.show('error', err||'Failed to load user');
-        this.router.navigate(['users']);
-      }
-    });
+      })
+    );
   }
   onSubmit() {
     this.userService.updateUser(this.userId, this.editForm.value).subscribe({
@@ -60,7 +55,7 @@ export class UserEditComponent extends BaseComponent {
         }
       },
       error: (err) => {
-        this.toast.show('error', err||'Unable to update the record');
+        this.toast.show('error', err || 'Unable to update the record');
         this.router.navigate(['users']);
       }
     });

@@ -1,5 +1,5 @@
 <div class="fs-2 fw-semibold mb-2">Update Employee</div>
-<form [formGroup]="editForm" (submit)="onSubmit()">
+<form *ngIf="user$ | async as user" [formGroup]="editForm" (submit)="onSubmit()">
     <div class="row mb-3">
         <label for="name" class="col-sm-2 col-form-label">Name</label>
         <div class="col-sm-10">
@@ -37,11 +37,15 @@
         </div>
     </div>
     <div class="row mb-3">
-        <label for="role" class="col-sm-2 col-form-label">Photo</label>
+        <label for="role" class="col-sm-2 col-form-label">PhotoPath</label>
         <div class="col-sm-10">
-          <img *ngIf="editForm.get('photoPath')?.value" 
-             [src]="serverUrl + '/' + editForm.get('photoPath')?.value" 
-             alt="User Photo" class="img-fluid">
+            <input type="text" class="form-control" id="photoPath" formControlName="photoPath">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="role" class="col-sm-2  col-form-label">Photo</label>
+        <div class="col-sm-10">
+            <img *ngIf="editForm.get('photoPath')?.value" [src]="serverUrl+'/'+editForm.get('photoPath')?.value" alt="User Photo" class="img-fluid" style="max-width:400px; height:auto">
         </div>
     </div>
     <button type="submit" class="btn btn-sm btn-primary">Update</button>
