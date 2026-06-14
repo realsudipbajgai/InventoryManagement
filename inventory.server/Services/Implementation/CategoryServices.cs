@@ -14,19 +14,33 @@ namespace inventory.server.Services.Implementation
         {
             _context = context;
         }
-        public Task<CategoryVM> AddCategory(CategoryVM categoryVM)
+        public async Task<CategoryVM> AddCategory(CategoryVM categoryVM)
         {
-            throw new NotImplementedException();
+            Category cat = categoryVM.toCategory();
+            await _context.Categories.AddAsync(cat);
+            int rowsAffected=await _context.SaveChangesAsync();
+            if (rowsAffected == 0) return null;
+            return categoryVM;
         }
 
-        public Task<bool> DeleteCategory(int id)
+        public async Task<bool> DeleteCategory(int id)
         {
-            throw new NotImplementedException();
+            Category? cat = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
+            if (cat == null) return false;
+            _context.Remove(cat);
+            int rowsAffected = await _context.SaveChangesAsync();
+            if (rowsAffected == 0) return false;
+            return true;
         }
 
-        public Task<CategoryVM> EditCategory(CategoryVM categoryVM)
+        public async Task<CategoryVM> EditCategory(CategoryVM categoryVM)
         {
-            throw new NotImplementedException();
+            Category? catFromDb = await _context.Categories.FirstOrDefaultAsync(c => c.Id == categoryVM.Id);
+            if (catFromDb == null) return null;
+            catFromDb.Name = categoryVM.Name;
+            catFromDb.UpdatedAt = DateTime.UtcNow;
+            await _context.SaveChangesAsync();
+            return catFromDb.toCategoryVM();
         }
 
         public async Task<IEnumerable<CategoryVM>> GetAllCategories()

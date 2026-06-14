@@ -22,6 +22,7 @@ builder.Services.AddCors(options =>
 // Add services to the container.
 builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<IProductServices, ProductServices>();
+builder.Services.AddScoped<ICategoryServices, CategoryServices>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

@@ -8,7 +8,5 @@ namespace inventory.server.ViewModels
         public string Name { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-
-        public IEnumerable<ProductCreateRequestVM> ProductsVM { get; set; }
     }
 }

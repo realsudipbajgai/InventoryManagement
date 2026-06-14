@@ -46,7 +46,6 @@ namespace inventory.server.Extensions
                 Name = category.Name,
                 CreatedAt = category.CreatedAt,
                 UpdatedAt = category.UpdatedAt,
-                ProductsVM=null,
             };
         }
 
@@ -58,7 +57,6 @@ namespace inventory.server.Extensions
                 Name = categoryVM.Name,
                 CreatedAt = categoryVM.CreatedAt,
                 UpdatedAt = categoryVM.UpdatedAt,
-                Products = null,
 
             };
         }
