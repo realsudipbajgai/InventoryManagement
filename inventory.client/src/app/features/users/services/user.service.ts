@@ -38,7 +38,7 @@ export class UserService {
     return this.http.post<ApiResponse<User>>(this.apiUrl, formData);
   }
 
-  updateUser(id:number,user: User): Observable<ApiResponse<User>> {
+  updateUser(id:number,user: User,newPhoto:File|null): Observable<ApiResponse<User>> {
     const formData = new FormData();
     formData.append('id',id.toString());
     formData.append('name', user.name);
@@ -54,7 +54,9 @@ export class UserService {
     if (user.photoPath) {
       formData.append('photoPath', user.photoPath);
     }
-
+    if(newPhoto){
+      formData.append('photo',newPhoto,newPhoto.name);
+    }
     return this.http.put<ApiResponse<User>>(this.apiUrl,formData);
   }
 

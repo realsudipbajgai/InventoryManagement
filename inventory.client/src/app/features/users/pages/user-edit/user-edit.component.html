@@ -48,6 +48,12 @@
             <img *ngIf="editForm.get('photoPath')?.value" [src]="serverUrl+'/'+editForm.get('photoPath')?.value" alt="User Photo" class="img-fluid" style="max-width:400px; height:auto">
         </div>
     </div>
+       <div class="row mb-3">
+        <label for="role" class="col-sm-2  col-form-label">Upload New Photo</label>
+        <div class="col-sm-10">
+           <input type="file" formControlName="photo" class="form-control" (change)=onPhotoSelected($event)>
+        </div>
+    </div>
     <button type="submit" class="btn btn-sm btn-primary">Update</button>
     <button class="btn btn-sm btn-secondary ms-1" routerLink="/users">Go Back</button>
 </form>

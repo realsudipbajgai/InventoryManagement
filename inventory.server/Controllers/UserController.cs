@@ -67,35 +67,7 @@ namespace inventory.server.Controllers
         {
             try
             {
-                if (userVM.Photo != null && userVM.Photo.Length > 0)
-                {
-                    // 1. Get the main project directory path
-                    var projectRoot = _env.ContentRootPath;
-
-                    // 2. Define the path to wwwroot
-                    var wwwrootPath = Path.Combine(projectRoot, "wwwroot");
-
-                    // 3. If wwwroot doesn't exist, create it
-                    if (!Directory.Exists(wwwrootPath))
-                    {
-                        Directory.CreateDirectory(wwwrootPath);
-                    }
-                    var uploadsFolder = Path.Combine(wwwrootPath, "uploads");
-                    if (!Directory.Exists(uploadsFolder))
-                    {
-                        Directory.CreateDirectory(uploadsFolder);
-                    }
-
-                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(userVM.Photo.FileName);
-                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await userVM.Photo.CopyToAsync(fileStream);
-                    }
-                    // This is the relative path you save to the Database (e.g., "uploads/unique_name.jpg")
-                    userVM.PhotoPath = Path.Combine("uploads", uniqueFileName).Replace('\\', '/');
-                }
+                this.uploadPhoto(userVM);
                 var result = await _service.AddUser(userVM);
                 if (result == null)
                 {
@@ -141,6 +113,7 @@ namespace inventory.server.Controllers
         {
             try
             {
+                this.uploadPhoto(userVM);
                 var result = await _service.EditUser(userVM);
                 if (result == null)
                 {
@@ -211,6 +184,31 @@ namespace inventory.server.Controllers
             else
             {
                 return BadRequest(new ApiResponse<object> { Success = false, Message = "Test Data insertion failed" });
+            }
+        }
+
+        private async void uploadPhoto(UserVM userVM)
+        {
+            if (userVM.Photo != null && userVM.Photo.Length > 0)
+            {
+                var projectroot = _env.ContentRootPath;
+                var wwwrootpath = Path.Combine(projectroot, "wwwroot");
+                if (!Directory.Exists(wwwrootpath))
+                {
+                    Directory.CreateDirectory(wwwrootpath);
+                }
+                var uploadsFolder = Path.Combine(wwwrootpath, "uploads");
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+                var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(userVM.Photo.FileName);
+                var fikePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(fikePath, FileMode.Create))
+                {
+                    await userVM.Photo.CopyToAsync(fileStream);
+                }
+                userVM.PhotoPath = Path.Combine("uploads", uniqueFileName).Replace("\\", "/");
             }
         }
     }

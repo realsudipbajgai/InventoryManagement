@@ -21,6 +21,7 @@ export class UserEditComponent extends BaseComponent {
   private toast = inject(ToastService);
   userId!: number;
   user$!: Observable<any>;
+  selectedPhoto:File|null=null;
   editForm: FormGroup = new FormGroup({
     name: new FormControl(''),
     email: new FormControl(''),
@@ -29,6 +30,7 @@ export class UserEditComponent extends BaseComponent {
     age: new FormControl(null),
     role: new FormControl(''),
     photoPath: new FormControl(''),
+    photo:new FormControl(null)
   });
   ngOnInit(): void {
     this.userId = Number(this.route.snapshot.paramMap.get('id'));
@@ -47,7 +49,7 @@ export class UserEditComponent extends BaseComponent {
     );
   }
   onSubmit() {
-    this.userService.updateUser(this.userId, this.editForm.value).subscribe({
+    this.userService.updateUser(this.userId, this.editForm.value,this.selectedPhoto).subscribe({
       next: (result) => {
         if (result.success) {
           this.toast.show('success', result.message)
@@ -59,5 +61,14 @@ export class UserEditComponent extends BaseComponent {
         this.router.navigate(['users']);
       }
     });
+  }
+
+  onPhotoSelected(event:any){
+    const file:File=event.target.files[0];
+    if(file){
+      this.selectedPhoto=file;
+      console.log(this.selectedPhoto);
+      
+    }
   }
 }
