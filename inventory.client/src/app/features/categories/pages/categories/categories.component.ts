@@ -14,9 +14,18 @@ import { Category } from '../../../../shared/models/Category';
 export class CategoriesComponent {
   catServ = inject(CategoryService);
   categories$=new Observable<any>;
+  selectedCat:Category={name:''};
   ngOnInit() {
     this.categories$=this.catServ.getAllCategories().pipe(
       map(resp=>resp.data)
     );
+  }
+  onDetailsClick(id:number){
+    this.catServ.getCategoryById(id).subscribe(resp=>{
+      if(resp.success){
+        this.selectedCat=resp.data;
+        console.log(this.selectedCat);
+      }
+    }) 
   }
 }
