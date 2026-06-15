@@ -14,4 +14,8 @@ export class CategoryService {
   getAllCategories():Observable<any>{
     return this.httpClient.get<any>(this.configService.serverUrl+'/categories')
   }
+
+  addCategory(category:Category):Observable<any>{
+    return this.httpClient.post<any>(this.configService.serverUrl+'/categories',category)
+  }
 }
