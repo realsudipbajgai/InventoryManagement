@@ -73,7 +73,7 @@ namespace inventory.server.Controllers
             {
                 var result = await _service.EditCategory(catVM);
                 if (result == null) return BadRequest(new ApiResponse<object> { Success = false, Message = "Unable to add category" });
-                return Ok(new ApiResponse<object> { Success = true, Data = result, Message = "Data Insert Successfull" });
+                return Ok(new ApiResponse<object> { Success = true, Data = result, Message = "Data Update Successfull" });
             }
             catch
             {
@@ -81,7 +81,7 @@ namespace inventory.server.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
             try

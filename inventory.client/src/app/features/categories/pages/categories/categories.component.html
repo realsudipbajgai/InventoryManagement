@@ -16,7 +16,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let category of categories$|async;let i=index">
+        <tr *ngFor="let category of categories();let i=index">
             <th scope="row">{{i+1}}</th>
             <td>{{category.name}}</td>
             <td>
@@ -24,8 +24,9 @@
 
                 <button type="button" class="btn btn-sm btn-info me-1" 
                 title="Details" data-bs-toggle="modal" data-bs-target="#category-details-modal"
-                (click)="onDetailsClick(category.id)"><i class="bi bi-eye"></i></button>
-                <button type="button" class="btn btn-sm btn-danger" title="Delete"><i class="bi bi-trash"></i></button>
+                (click)="onDetailsClick(category)"><i class="bi bi-eye"></i></button>
+                <button type="button" class="btn btn-sm btn-danger" title="Delete"
+                (click)=onDeleteClick(category)><i class="bi bi-trash"></i></button>
             </td>
         </tr>
     </tbody>
@@ -40,8 +41,8 @@
       </div>
       <div class="modal-body" *ngIf="selectedCat.name!=null">
         <div class="row">
-            <div>Name:</div>
-            <div>{{selectedCat.name}}</div>
+            <div class="col-2">Name:</div>
+            <div class="col-10">{{selectedCat.name}}</div>
         </div>
       </div>
       <div class="modal-footer">

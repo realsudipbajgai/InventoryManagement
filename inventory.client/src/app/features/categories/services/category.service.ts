@@ -22,4 +22,13 @@ export class CategoryService {
   getCategoryById(id:number):Observable<any>{
     return this.httpClient.get<any>(this.configService.serverUrl+`/categories/${id}`);
   }
+
+  updateCategory(cat:Category):Observable<any>{
+    return this.httpClient.put<any>(this.configService.serverUrl+'/categories',cat);
+  }
+
+  deleteCategory(id:number):Observable<any>{
+    return this.httpClient.delete<any>(this.configService.serverUrl+`/categories/${id}`);
+  }
+
 }

@@ -1,1 +1,19 @@
-<p>category-edit works!</p>
+<div>
+    <div class="fs-4 fw-bold">Add Category</div>
+</div>
+<form class="mt-2" *ngIf="category$|async as cat" >
+    <div class="row">
+        <div class="col-3 col-sm-2">
+            <label for="name" class="form-label">Name</label>
+        </div>
+        <div class="col-9 col-sm-10">
+            <input type="text" class="form-control" id="name" name="name" [(ngModel)]="cat.name" >
+        </div>
+    </div>
+        <div class="row">
+        <div class="col-9 col-sm-10">
+            <button type="button" (click)="onUpdate(cat)"  class="btn btn-primary me-1">Update</button>
+            <button type="button" class="btn btn-secondary" routerLink="/categories">Cancel</button>
+        </div>
+    </div>
+</form>
