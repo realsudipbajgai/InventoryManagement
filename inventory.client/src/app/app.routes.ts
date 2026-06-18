@@ -3,10 +3,11 @@ import {HomeComponent} from './shared/components/home/home.component';
 import { UsersComponent } from './features/users/pages/user-list/users.component';
 import { UserCreateComponent } from './features/users/pages/user-create/user-create.component';
 import { UserEditComponent } from './features/users/pages/user-edit/user-edit.component';
-import {ProductListComponent} from './features/products/pages/product-list/product-list.component'
 import { CategoriesComponent } from './features/categories/pages/categories/categories.component';
 import { CategoryCreateComponent } from './features/categories/pages/category-create/category-create.component';
 import { CategoryEditComponent } from './features/categories/pages/category-edit/category-edit.component';
+import { ProductListComponent } from './features/products/pages/product-list/product-list.component';
+import { ProductCreateComponent } from './features/products/pages/product-create/product-create.component';
 
 export const routes: Routes = [
     {path:'',component:HomeComponent},
@@ -18,4 +19,8 @@ export const routes: Routes = [
     {path:'categories',component:CategoriesComponent},
     {path:'categories/create',component:CategoryCreateComponent},
     {path:'categories/edit/:id',component:CategoryEditComponent},
+    {path:'products',component:ProductListComponent},
+    {path:'products/create',component:ProductCreateComponent}
 ];
+
+

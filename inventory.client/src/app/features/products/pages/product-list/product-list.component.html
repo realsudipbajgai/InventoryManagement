@@ -1,1 +1,44 @@
-<p>product-list works!</p>
+<div class="d-flex justify-content-between">
+    <div>
+        List of products
+    </div>
+    <div>
+        <button type="button" class="btn  btn-primary" [routerLink]="['create']"> <i class="bi bi-plus-circle"></i> Add New</button>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>S.N.</th>
+            <th>Name</th>
+            <th>SerialNumber</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1.</td>
+            <td>Dell Laptop</td>
+            <td>dell-lp-1</td>
+            <td>In Use</td>
+            <td>
+                <button type="button" class="btn btn-sm btn-info me-2" title="Edit"><i class="bi bi-pencil-fill"></i> </button>
+                <button type="button" class="btn btn-sm btn-secondary me-2" title="Details"><i class="bi bi-eye-fill"></i> </button>
+                <button type="button" class="btn btn-sm btn-danger" title="Delete"> <i class="bi bi-trash-fill"></i></button>
+            </td>
+        </tr>
+        <tr>
+            <td>1.</td>
+            <td>Asus Laptop</td>
+            <td>dell-lp-2</td>
+            <td>In Use</td>
+            <td>
+                <button type="button" class="btn btn-sm btn-info me-2" title="Edit"><i class="bi bi-pencil-fill"></i> </button>
+                <button type="button" class="btn btn-sm btn-secondary me-2" title="Details"><i class="bi bi-eye-fill"></i> </button>
+                <button type="button" class="btn btn-sm btn-danger" title="Delete"> <i class="bi bi-trash-fill"></i></button>
+            </td>
+        </tr>
+    </tbody>
+</table>
