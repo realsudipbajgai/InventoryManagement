@@ -1,6 +1,7 @@
 import { Component,inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import {RouterLink,Router} from '@angular/router';
-import {Observable} from 'rxjs';
+import {Observable,map} from 'rxjs';
 import { ProductService } from '../../services/product.service';
 import { CategoryService } from '../../../categories/services/category.service';
 import {Category} from '../../../../shared/models/Category';
@@ -9,7 +10,7 @@ import { ToastService } from '../../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-product-list',
-  imports: [RouterLink],
+  imports: [RouterLink,CommonModule],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
 })
@@ -19,23 +20,10 @@ export class ProductListComponent {
   _toast=inject(ToastService);
   _router=inject(Router);
 
-  categories$=new Observable<Category[]>();
-  ngOnInit()
-  {
-    this._catServ.getAllCategories().subscribe({
-      next:resp=>{
-        if(resp.success){
-          this.categories$=resp.data;
-          // console.log('cattegories:',this.categories$);
-        }
-        else{
-          this._toast.show('warning','Something went wrong. Please try again later');
-          this._router.navigate(['products']);
-        }
-      },
-      error:err=>{
-        console.error(err);
-      }
-    })
-  }
+  categories$=this._catServ.getAllCategories().pipe(
+    map(resp=>resp.data)
+  );
+   products$=this._prodServ.getAllProducts().pipe(
+    map(resp=>resp.data)
+  );
 }

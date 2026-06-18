@@ -1,9 +1,9 @@
-<div class="d-flex justify-content-between">
-    <div>
+<div class="d-flex justify-content-between align-items-center">
+    <div class="fw-bold fs-1">
         List of products
     </div>
     <div>
-        <button type="button" class="btn  btn-primary" [routerLink]="['create']"> <i class="bi bi-plus-circle"></i> Add New</button>
+        <button type="button" class="btn  btn-outline-primary" [routerLink]="['create']"> <i class="bi bi-plus-circle"></i>Add New</button>
     </div>
 </div>
 
@@ -13,27 +13,18 @@
             <th>S.N.</th>
             <th>Name</th>
             <th>SerialNumber</th>
+            <th>Category</th>
             <th>Status</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>1.</td>
-            <td>Dell Laptop</td>
-            <td>dell-lp-1</td>
-            <td>In Use</td>
-            <td>
-                <button type="button" class="btn btn-sm btn-info me-2" title="Edit"><i class="bi bi-pencil-fill"></i> </button>
-                <button type="button" class="btn btn-sm btn-secondary me-2" title="Details"><i class="bi bi-eye-fill"></i> </button>
-                <button type="button" class="btn btn-sm btn-danger" title="Delete"> <i class="bi bi-trash-fill"></i></button>
-            </td>
-        </tr>
-        <tr>
-            <td>1.</td>
-            <td>Asus Laptop</td>
-            <td>dell-lp-2</td>
-            <td>In Use</td>
+        <tr *ngFor="let product of products$|async; let i=index">
+            <td>{{i+1}}</td>
+            <td>{{product.name}}</td>
+            <td>{{product.serialNumber}}</td>
+            <td>{{product.categoryId}}</td>
+            <td>{{product.status}}</td>
             <td>
                 <button type="button" class="btn btn-sm btn-info me-2" title="Edit"><i class="bi bi-pencil-fill"></i> </button>
                 <button type="button" class="btn btn-sm btn-secondary me-2" title="Details"><i class="bi bi-eye-fill"></i> </button>

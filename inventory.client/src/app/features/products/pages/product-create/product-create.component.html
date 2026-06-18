@@ -1,64 +1,89 @@
-<form>
+<form [formGroup]="productForm" (submit)="onSubmit()">
     <div class="row mb-2">
         <div class="col-sm-2">
             <label for="name" class="form-label">Name</label>
         </div>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" id="name">
+        <div class="col-sm-8">
+            <input type="text" class="form-control" id="name" formControlName="name">
+        </div>
+        <div class="col-sm-2 text-danger">
+            <small *ngIf="productForm.get('name')?.errors?.['required']"> Name is required</small>
         </div>
     </div>
     <div class="row mb-2">
         <div class="col-sm-2">
             <label for="serialNumber" class="form-label">Serial Number</label>
         </div>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" id="serialNumber">
+        <div class="col-sm-8">
+            <input type="text" class="form-control" id="serialNumber" formControlName="serialNumber">
+        </div>
+        <div class="col-sm-2 text-danger">
+            <small *ngIf="productForm.get('serialNumber')?.errors?.['required']"> Serial Number is required</small>
         </div>
     </div>
     <div class="row mb-2">
         <div class="col-sm-2">
             <label for="purchaseCost" class="form-label">Purchase Cost</label>
         </div>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" id="purchaseCost">
+        <div class="col-sm-8">
+            <input type="text" class="form-control" id="purchaseCost" formControlName="purchaseCost">
+        </div>
+        <div class="col-sm-2 text-danger">
+            <small *ngIf="productForm.get('purchaseCost')?.errors?.['required']"> Purchase Cost is required</small>
         </div>
     </div>
-     <div class="row mb-2">
+    <div class="row mb-2">
         <div class="col-sm-2">
             <label for="purchaseDate" class="form-label">Purchase Date</label>
         </div>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" id="purchaseDate">
+        <div class="col-sm-8">
+            <input type="date" class="form-control" id="purchaseDate" formControlName="purchaseDate">
+        </div>
+        <div class="col-sm-2 text-danger">
+            <small *ngIf="productForm.get('purchaseDate')?.errors?.['required']"> Purchase Date is required</small>
         </div>
     </div>
-     <div class="row mb-2">
+    <div class="row mb-2">
         <div class="col-sm-2">
             <label for="status" class="form-label">Status</label>
         </div>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" id="status">
+        <div class="col-sm-8">
+            <input type="text" class="form-control" id="status" formControlName="status">
+        </div>
+        <div class="col-sm-2 text-danger">
+            <small *ngIf="productForm.get('status')?.errors?.['required']"> Status is required</small>
         </div>
     </div>
     <div class="row mb-2">
         <div class="col-sm-2">
             <label for="category" class="form-label">Category</label>
         </div>
-        <div class="col-sm-10">
-            <select class="form-select">
-                <option value="">---Select Category---</option>
-                <option value="">Option 1</option>
-                <option value="">Option 2</option>
+        <div class="col-sm-8">
+            <select class="form-select" formControlName="categoryId">
+                <option value="-1">---Select Category---</option>
+                <option *ngFor="let cat of categories$|async" value="{{cat.id}}">{{cat.name}}</option>
             </select>
+        </div>
+        <div class="col-sm-2 text-danger">
+            <small *ngIf="productForm.get('categoryId')?.errors?.['min']"> Category is required</small>
         </div>
     </div>
     <div class="row mb-2">
         <div class="col-sm-2">
             <label for="description" class="form-label">Description</label>
         </div>
-        <div class="col-sm-10">
-            <textarea class="form-control" id="description">
+        <div class="col-sm-8">
+            <textarea class="form-control" id="description" formControlName="description">
             </textarea>
         </div>
+         <div class="col-sm-2 text-danger">
+            <small *ngIf="productForm.get('description')?.errors?.['required']"> Description is required</small>
+        </div>
     </div>
-    <button type="button" class="btn btn-primary">Submit</button>
+    <div class="offset-sm-2">
+        <!-- <button type="submit" class="btn btn-primary me-1" [disabled]="productForm.invalid">Add </button> -->
+        <button type="submit" class="btn btn-primary me-1">Add </button>
+        <button type="button" class="btn btn-secondary" routerLink="/products">Go Back </button>
+
+    </div>
 </form>
