@@ -24,7 +24,7 @@ export class ProductService {
     formData.append('description',product.description);
     formData.append('serialNumber',product.serialNumber);
     formData.append('purchaseCost',product.purchaseCost);
-    formData.append('purchaseDate',product.purchaseDate.toISOString());
+    formData.append('purchaseDate',new Date(product.purchaseDate).toISOString());
     formData.append('status',product.status);
     formData.append('categoryId',product.categoryId.toString());
     return this._http.post(this._config.serverUrl+'/products',formData)

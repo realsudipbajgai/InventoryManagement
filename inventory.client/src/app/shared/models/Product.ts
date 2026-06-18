@@ -1,3 +1,4 @@
+import { Category } from "./Category"
 export interface Product{
     id?:number,
     categoryId:number,
@@ -9,4 +10,5 @@ export interface Product{
     status:string,
     createdAt?:Date,
     updatedAt:Date,
+    category?:Category
 }

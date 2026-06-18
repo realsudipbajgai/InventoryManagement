@@ -16,20 +16,20 @@ namespace inventory.server.Services.Implementation
         }
 
 
-        public async Task<IEnumerable<ProductCreateRequestVM>> GetAllProducts()
+        public async Task<IEnumerable<ProductVM>> GetAllProducts()
         {
-            var products = await _context.Products.ToListAsync();
-            IEnumerable<ProductCreateRequestVM> productsVM = products.Select(p => p.toProductVM());
+            var products = await _context.Products.Include(p=>p.Category).ToListAsync();
+            IEnumerable<ProductVM> productsVM = products.Select(p => p.toProductVM());
             return productsVM;
         }
 
-        public async Task<ProductCreateRequestVM?> GetProductById(int id)
+        public async Task<ProductVM?> GetProductById(int id)
         {
-            Product? result = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+            Product? result = await _context.Products.Include(p=>p.Category).FirstOrDefaultAsync(p => p.Id == id);
             if (result == null) return null;
             return result.toProductVM();
         }
-        public async Task<ProductCreateRequestVM> AddProduct(ProductCreateRequestVM productVM)
+        public async Task<ProductVM> AddProduct(ProductVM productVM)
         {
             Product product = productVM.toProduct();
             await _context.AddAsync(product);

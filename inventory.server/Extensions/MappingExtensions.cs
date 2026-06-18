@@ -60,9 +60,9 @@ namespace inventory.server.Extensions
 
             };
         }
-        public static ProductCreateRequestVM toProductVM(this Product product)
+        public static ProductVM toProductVM(this Product product)
         {
-            return new ProductCreateRequestVM
+            return new ProductVM
             {
                 Id = product.Id,
                 CategoryId = product.CategoryId,
@@ -75,10 +75,15 @@ namespace inventory.server.Extensions
                 Status = product.Status,
                 CreatedAt = product.CreatedAt,
                 UpdatedAt = product.UpdatedAt,
+                ////when inserting product, i am not returning included category,
+                //will give error, so map only if it contains data
+
+                //similarly, while fetching all products or by id, i am including category, only then it is going to map
+                Category = product.Category!=null?product.Category.toCategoryVM():null 
             };
         }
 
-        public static Product toProduct(this ProductCreateRequestVM productVm)
+        public static Product toProduct(this ProductVM productVm)
         {
             return new Product
             {

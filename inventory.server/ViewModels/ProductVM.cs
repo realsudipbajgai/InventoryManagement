@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace inventory.server.ViewModels
 {
-    public class ProductCreateRequestVM
+    public class ProductVM
     {
         public int Id { get; set; }
         public int CategoryId { get; set; }
@@ -17,5 +17,7 @@ namespace inventory.server.ViewModels
         public string Status { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+
+        public CategoryVM? Category { get; set; }
     }
 }

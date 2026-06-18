@@ -51,7 +51,7 @@ namespace inventory.server.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Products([FromForm]ProductCreateRequestVM productVm)
+        public async Task<IActionResult> Products([FromForm]ProductVM productVm)
         {
             try
             {

@@ -5,10 +5,10 @@ namespace inventory.server.Services.Interface
 {
     public interface IProductServices
     {
-        Task<IEnumerable<ProductCreateRequestVM>> GetAllProducts();
-        Task<ProductCreateRequestVM?> GetProductById(int id);
+        Task<IEnumerable<ProductVM>> GetAllProducts();
+        Task<ProductVM?> GetProductById(int id);
 
-        Task<ProductCreateRequestVM> AddProduct(ProductCreateRequestVM productVM);
+        Task<ProductVM> AddProduct(ProductVM productVM);
     }
 }
                 
