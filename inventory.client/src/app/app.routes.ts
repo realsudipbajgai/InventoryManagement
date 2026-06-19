@@ -8,6 +8,9 @@ import { CategoryCreateComponent } from './features/categories/pages/category-cr
 import { CategoryEditComponent } from './features/categories/pages/category-edit/category-edit.component';
 import { ProductListComponent } from './features/products/pages/product-list/product-list.component';
 import { ProductCreateComponent } from './features/products/pages/product-create/product-create.component';
+import { ProductEditComponent } from './features/products/pages/product-edit/product-edit.component';
+import { ProductDetailsComponent } from './features/products/pages/product-details/product-details.component';
+import { ProductDeleteComponent } from './features/products/pages/product-delete/product-delete.component';
 
 export const routes: Routes = [
     {path:'',component:HomeComponent},
@@ -20,7 +23,10 @@ export const routes: Routes = [
     {path:'categories/create',component:CategoryCreateComponent},
     {path:'categories/edit/:id',component:CategoryEditComponent},
     {path:'products',component:ProductListComponent},
-    {path:'products/create',component:ProductCreateComponent}
+    {path:'products/create',component:ProductCreateComponent},
+    {path:'products/edit/:id',component:ProductEditComponent},
+    {path:'products/details/:id',component:ProductDetailsComponent},
+    {path:'products/delete/:id',component:ProductDeleteComponent}
 ];
 
 

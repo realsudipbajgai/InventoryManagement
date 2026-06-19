@@ -26,9 +26,14 @@
             <td>{{product.category.name}}</td>
             <td>{{product.status}}</td>
             <td>
-                <button type="button" class="btn btn-sm btn-info me-2" title="Edit"><i class="bi bi-pencil-fill"></i> </button>
-                <button type="button" class="btn btn-sm btn-secondary me-2" title="Details"><i class="bi bi-eye-fill"></i> </button>
-                <button type="button" class="btn btn-sm btn-danger" title="Delete"> <i class="bi bi-trash-fill"></i></button>
+                <button type="button" class="btn btn-sm text-info me-2" 
+                title="Edit" routerLink="edit/{{product.id}}" >
+                    <i class="bi bi-pencil"></i>
+                </button>
+                <button type="button" class="btn btn-sm text-secondary me-2" title="Details" routerLink="details/{{product.id}}"><i class="bi bi-eye-fill"></i> </button>
+                <button type="button" class="btn btn-sm text-danger" 
+                title="Delete" routerLink="delete/{{product.id}}"> 
+                <i class="bi bi-trash"></i></button>
             </td>
         </tr>
     </tbody>
