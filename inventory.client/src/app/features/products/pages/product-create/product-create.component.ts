@@ -20,7 +20,6 @@ export class ProductCreateComponent {
   _catServ = inject(CategoryService);
   _toast = inject(ToastService);
   _router = inject(Router);
-
   //load categories
   categories$ = this._catServ.getAllCategories().pipe(
     map(resp => resp.data)
@@ -37,7 +36,6 @@ export class ProductCreateComponent {
     categoryId: this.selectedCatId,
     updatedAt: new Date()
   };
-
   productForm = new FormGroup({
     name: new FormControl(this.product.name, Validators.required),
     description: new FormControl(this.product.description, Validators.required),

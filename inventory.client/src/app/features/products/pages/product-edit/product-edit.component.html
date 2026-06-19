@@ -1,5 +1,5 @@
 <h1>Update Product</h1>
-<form [formGroup]="productForm">
+<form [formGroup]="productForm" *ngIf="product$|async">
     <div class="row mb-2">
         <div class="col-sm-2">
             <label for="name" class="form-label">Name</label>
