@@ -9,6 +9,8 @@ namespace inventory.server.Services.Interface
         Task<ProductVM?> GetProductById(int id);
 
         Task<ProductVM> AddProduct(ProductVM productVM);
+
+        Task<ProductVM> UpdateProduct(ProductVM productVM);
     }
 }
                 

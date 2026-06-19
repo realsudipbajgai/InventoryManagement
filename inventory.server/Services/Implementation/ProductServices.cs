@@ -38,6 +38,22 @@ namespace inventory.server.Services.Implementation
             return product.toProductVM();
         }
 
+        public async Task<ProductVM> UpdateProduct(ProductVM productVM)
+        {
+            Product? prodModel = await _context.Products.FirstOrDefaultAsync(p => p.Id == productVM.Id);
+            if (prodModel==null)
+            {
+                throw new KeyNotFoundException($"Product with ID{productVM.Id} Not Found");
+            }
+            productVM.MergetoProuctEntity(prodModel);
+            int rowAffected=await _context.SaveChangesAsync();
+            if (rowAffected <= 0)
+            {
+                throw new Exception($"Unable to update in database. Try later");
+            }
+            return prodModel.toProductVM();
+        }
+
 
     }
 }

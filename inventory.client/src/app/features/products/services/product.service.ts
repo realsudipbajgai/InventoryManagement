@@ -31,4 +31,17 @@ export class ProductService {
   getProductById(id:number):Observable<any>{
     return this._http.get(this._config.serverUrl+`/products/${id}`);
   }
+
+  updateProduct(product:any):Observable<any>{
+    const formData=new FormData();
+    formData.append('id',product.id);
+    formData.append('name',product.name);
+    formData.append('description',product.description);
+    formData.append('purchaseCost',product.purchaseCost);
+    formData.append('purchaseDate',product.purchaseDate);
+    formData.append('serialNumber',product.serialNumber);
+    formData.append('status',product.status);
+    formData.append('categoryId',product.categoryId);
+    return this._http.put(this._config.serverUrl+'/products',formData)
+  }
 }

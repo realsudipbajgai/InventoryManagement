@@ -68,5 +68,25 @@ namespace inventory.server.Controllers
                 return BadRequest(new ApiResponse<object> { Success = false, Message = "Server error. Try again later" });
             }
         }
+
+        [HttpPut]
+        public async Task<IActionResult> Update([FromForm] ProductVM productVM)
+        {
+            try
+            {
+                var result = await _service.UpdateProduct(productVM);
+                if (result == null)
+                {
+                    return BadRequest(new ApiResponse<object> { Success = false, Message = "Unable to Update Product" });
+                }
+
+                return Ok(new ApiResponse<object> { Success = true, Data = result, Message = "Successfully Update Product" });
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse<object> { Success = false, Message = "Server error. Try again later" });
+            }
+        }
     }
 }

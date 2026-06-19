@@ -101,5 +101,19 @@ namespace inventory.server.Extensions
             };
         }
 
+        //update VM to Product Model, existing entity
+
+        public static void MergetoProuctEntity(this ProductVM vm, Product entity)
+        {
+            entity.Name = vm.Name;
+            entity.SerialNumber = vm.SerialNumber;
+            entity.Description = vm.Description;
+            entity.PurchaseDate = vm.PurchaseDate;
+            entity.PurchaseCost = vm.PurchaseCost;
+            entity.CategoryId = vm.CategoryId;
+            entity.UpdatedAt = DateTime.UtcNow;
+            entity.Status = vm.Status;
+        }
+
     }
 }
