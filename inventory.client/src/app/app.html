@@ -22,22 +22,22 @@
     <div id="side-navbar" class="col-3 col-sm-2 bg-dark border-end border-secondary pt-3 pb-3 d-flex flex-column">
       <ul class="nav flex-column gap-1">
         <li class="nav-item">
-          <a class="nav-link text-white fw-semibold rounded mx-2 px-3 py-2 active bg-danger bg-opacity-25" aria-current="page" routerLink="/">
+          <a class="nav-link text-white fw-semibold rounded mx-2 px-3 py-2" aria-current="page" routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
             <i class="bi bi-house-door me-2"></i>Home
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-secondary rounded mx-2 px-3 py-2" routerLink="/users">
-            <i class="bi bi-people me-2"></i>Users
+          <a class="nav-link text-white rounded mx-2 px-3 py-2" routerLink="/users" routerLinkActive="active-link">
+            <i class="bi bi-people me-2"></i>Employees
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-secondary rounded mx-2 px-3 py-2" routerLink="/products">
+          <a class="nav-link text-white rounded mx-2 px-3 py-2" routerLink="/products" routerLinkActive="active-link">
             <i class="bi bi-box-seam me-2"></i>Products
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-secondary rounded mx-2 px-3 py-2" routerLink="/categories">
+          <a class="nav-link text-white rounded mx-2 px-3 py-2" routerLink="/categories" routerLinkActive="active-link">
             <i class="bi bi-tags me-2"></i>Categories
           </a>
         </li>
