@@ -1,107 +1,94 @@
-<div class="d-flex justify-content-between align-items-center mt-2">
-  <div class="fw-bold fs-1">List of Employees</div>
-  <div>
-     <button class="btn btn-outline-secondary me-2" (click)="seedTestUsers()"> <i class="bi bi-plus-circle me-1"></i>Seed Test Users</button>
-    <button class="btn btn-outline-primary" routerLink="create"> <i class="bi bi-plus-circle me-1"></i>Add New</button>
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="fw-bold m-0">Employees</h2>
+    <div class="btn-group">
+      <button class="btn btn-outline-secondary" (click)="seedTestUsers()">
+        <i class="bi bi-database-add me-1"></i> Seed Data
+      </button>
+      <a routerLink="create" class="btn btn-primary">
+        <i class="bi bi-person-plus me-1"></i> Add New
+      </a>
+    </div>
+  </div>
+
+  <div class="card shadow-sm border-0">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th class="ps-4">#</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Role</th>
+              <th class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users(); let i = index">
+              <td class="ps-4 text-muted">{{i + 1}}</td>
+              <td class="fw-semibold">{{user.name}}</td>
+              <td>{{user.email}}</td>
+              <td>{{user.phone}}</td>
+              <td><span class="badge bg-primary-subtle text-primary">{{user.role}}</span></td>
+              <td class="text-center">
+                <div class="btn-group btn-group-sm">
+                  <button class="btn btn-outline-secondary" title="Edit" [routerLink]="['edit', user.id]">
+                    <i class="bi bi-pencil-square"></i>
+                  </button>
+                  <button class="btn btn-outline-info" title="Details" data-bs-toggle="modal" 
+                          data-bs-target="#userdetails" (click)="onUserDetailsClick(user)">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                  <button class="btn btn-outline-danger" title="Delete" data-bs-toggle="modal" 
+                          data-bs-target="#userdelete" (click)="onUserDeleteClick(user)">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Email</th>
-      <th scope="col">Phone</th>
-      <th scope="col">Role</th>
-      <th scope="col">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-      <tr *ngFor="let user of users();let i=index">
-      <th scope="row">{{i+1}}</th>
-      <td>{{user.name}}</td>
-      <td>{{user.email}}</td>
-      <td>{{user.phone}}</td>
-      <td>{{user.role}}</td>
-      <td>
-        <button title="Edit" [routerLink]="['edit',user.id]" class="btn btn-sm me-1">
-          <i class="bi bi-pencil-square me-1 text-secondary"></i></button>
-        <button type="button" title="Details" data-bs-toggle="modal" data-bs-target="#userdetails"
-          (click)="onUserDetailsClick(user)" class="btn btn-sm me-1">
-          <i class="bi bi-eye me-1 text-info"></i></button>
-        <button href="#" title="Delete" data-bs-toggle="modal" data-bs-target="#userdelete" class="btn btn-sm"
-        (click)="onUserDeleteClick(user)"> <i
-            class="bi bi-trash text-danger"></i></button>
-      </td>
-    </tr>
-  </tbody>
-</table>
 
-<!-- User Details Modal -->
-<div class="modal fade" id="userdetails" tabindex="-1" aria-labelledby="userdetailslabel"
-  aria-hidden="true">
-  <div class="modal-dialog">
+<div class="modal fade" id="userdetails" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" *ngIf="selectedUser() as user">
+      <div class="modal-header bg-light">
+        <h5 class="modal-title">Employee Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center mb-3">
+          <img [src]="serverUrl + '/' + user.photoPath" class="rounded-circle shadow-sm" width="100" height="100" alt="Profile">
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between"><span>Name:</span> <span class="fw-bold">{{user.name}}</span></li>
+          <li class="list-group-item d-flex justify-content-between"><span>Email:</span> <span class="fw-bold">{{user.email}}</span></li>
+          <li class="list-group-item d-flex justify-content-between"><span>Phone:</span> <span class="fw-bold">{{user.phone}}</span></li>
+          <li class="list-group-item d-flex justify-content-between"><span>Role:</span> <span class="fw-bold">{{user.role}}</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="userdelete" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="userdetailslabel">Employee Details</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title">Confirm Deletion</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body" *ngIf="selectedUser()">
-        <div class="row">
-          <span class="col-sm-2 fw-bold">Name:</span>
-          <span class="col-sm-10">{{selectedUser().name}}</span>
-        </div>
-        <div class="row">
-          <span class="col-sm-2 fw-bold">Email:</span>
-          <span class="col-sm-10">{{selectedUser().email}}</span>
-        </div>
-        <div class="row">
-          <span class="col-sm-2 fw-bold">Phone:</span>
-          <span class="col-sm-10">{{selectedUser().phone}}</span>
-        </div>
-        <div class="row">
-          <span class="col-sm-2 fw-bold">Age:</span>
-          <span class="col-sm-10">{{selectedUser().age}}</span>
-        </div>
-        <div class="row">
-          <span class="col-sm-2 fw-bold">Address:</span>
-          <span class="col-sm-10">{{selectedUser().address}}</span>
-        </div>
-
-        <div class="row">
-          <span class="col-sm-2 fw-bold">Role:</span>
-          <span class="col-sm-10">{{selectedUser().role}}</span>
-        </div>
-        <div class="row">
-          <span class="col-sm-2 fw-bold">Photo:</span>
-          <!-- <span class="col-sm-10">{{selectedUser().photoPath}}</span> -->
-          <span class="col-sm-10">
-            <img src="{{this.serverUrl}}/{{selectedUser().photoPath}}" class="img-fluid">
-          </span>
-        </div>
+        Are you sure you want to delete <strong>{{selectedUser().name}}</strong>? This action cannot be undone.
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-danger" (click)="onDeleteConfirmation(selectedUser().id)" data-bs-dismiss="modal">Delete</button>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- User Delete Modal -->
-<div class="modal fade" id="userdelete" tabindex="-1" aria-labelledby="userdeletelabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="userdeletelabel">Delete Employee Record</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body" *ngIf="selectedUser()!=null">
-        Are you sure want to delete <b>{{selectedUser().name}}</b> from database?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger" (click)="onDeleteConfirmation(selectedUser().id)" data-bs-dismiss="modal">Yes</button>
-      </div>
-    </div>
-  </div>
-</div>

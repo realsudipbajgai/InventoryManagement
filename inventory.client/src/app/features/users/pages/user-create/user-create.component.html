@@ -1,47 +1,67 @@
-<div class="fs-2 fw-semibold mb-2">Add a new employee</div>
-<form (ngSubmit)="onSubmit()">
-    <div class="row mb-3">
-        <label for="name" class="col-sm-2 col-form-label">Name</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" id="name" name="name" [(ngModel)]="user.name">
-        </div>
+<div class="container mt-4">
+  <h2 class="mb-4">Add New Employee</h2>
+
+  <form (ngSubmit)="onSubmit()" class="row g-3">
+    
+    <div class="col-md-6">
+      <div class="form-floating">
+        <input type="text" class="form-control" id="name" name="name" 
+               [(ngModel)]="user.name" placeholder="Name">
+        <label for="name">Full Name</label>
+      </div>
     </div>
-    <div class="row mb-3">
-        <label for="email" class="col-sm-2 col-form-label">Email</label>
-        <div class="col-sm-10">
-            <input type="email" class="form-control" id="email" name="email" [(ngModel)]="user.email">
-        </div>
+
+    <div class="col-md-6">
+      <div class="form-floating">
+        <input type="email" class="form-control" id="email" name="email" 
+               [(ngModel)]="user.email" placeholder="Email">
+        <label for="email">Email Address</label>
+      </div>
     </div>
-    <div class="row mb-3">
-        <label for="phone" class="col-sm-2 col-form-label">Phone</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" id="phone" name="phone" [(ngModel)]="user.phone">
-        </div>
+
+    <div class="col-md-4">
+      <div class="form-floating">
+        <input type="text" class="form-control" id="phone" name="phone" 
+               [(ngModel)]="user.phone" placeholder="Phone">
+        <label for="phone">Phone Number</label>
+      </div>
     </div>
-    <div class="row mb-3">
-        <label for="age" class="col-sm-2 col-form-label">Age</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" id="age" name="age" [(ngModel)]="user.age">
-        </div>
+    <div class="col-md-4">
+      <div class="form-floating">
+        <input type="number" class="form-control" id="age" name="age" 
+               [(ngModel)]="user.age" placeholder="Age">
+        <label for="age">Age</label>
+      </div>
     </div>
-    <div class="row mb-3">
-        <label for="address" class="col-sm-2 col-form-label">Address</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" id="address" name="address" [(ngModel)]="user.address">
-        </div>
+    <div class="col-md-4">
+      <div class="form-floating">
+        <input type="text" class="form-control" id="role" name="role" 
+               [(ngModel)]="user.role" placeholder="Role">
+        <label for="role">Role/Position</label>
+      </div>
     </div>
-    <div class="row mb-3">
-        <label for="role" class="col-sm-2 col-form-label">Role</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" id="role" name="role" [(ngModel)]="user.role">
-        </div>
+
+    <div class="col-12">
+      <div class="form-floating">
+        <input type="text" class="form-control" id="address" name="address" 
+               [(ngModel)]="user.address" placeholder="Address">
+        <label for="address">Address</label>
+      </div>
     </div>
-    <div class="row mb-3">
-        <label for="photo" class="col-sm-2 col-form-label">Photo</label>
-        <div class="col-sm-10">
-            <input type="file" class="form-control" id="photo" name="photo" [(ngModel)]="user.photo" (change)="onFileSelected($event)">
-        </div>
+
+    <div class="col-12">
+      <label class="form-label text-muted ms-1">Profile Photo</label>
+      <input type="file" class="form-control" id="photo" name="photo" 
+             (change)="onFileSelected($event)">
     </div>
-    <button type="submit" class="btn btn-sm btn-primary">Add</button>
-    <button class="btn btn-sm btn-secondary ms-1" (click)="onCancel()">Go Back</button>
-</form>
+
+    <div class="col-12 mt-4">
+      <button type="submit" class="btn btn-primary px-4 me-2">
+        <i class="bi bi-person-plus me-1"></i> Add Employee
+      </button>
+      <button type="button" class="btn btn-outline-secondary" (click)="onCancel()">
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>

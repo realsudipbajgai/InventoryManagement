@@ -1,19 +1,22 @@
-<div>
-    <div class="fs-4 fw-bold">Add Category</div>
+<div class="container mt-4">
+  <h2 class="mb-4">Add New Category</h2>
+
+  <form class="row g-3">
+    <div class="col-md-8">
+      <div class="form-floating">
+        <input type="text" class="form-control" id="name" name="name" 
+               [(ngModel)]="category.name" placeholder="Category Name">
+        <label for="name">Category Name</label>
+      </div>
+    </div>
+
+    <div class="col-12 mt-2">
+      <button type="button" (click)="onSubmit()" class="btn btn-primary px-4 me-2">
+        <i class="bi bi-save me-1"></i> Save Category
+      </button>
+      <button type="button" class="btn btn-outline-secondary" routerLink="/categories">
+        Cancel
+      </button>
+    </div>
+  </form>
 </div>
-<form class="mt-2" >
-    <div class="row">
-        <div class="col-3 col-sm-2">
-            <label for="name" class="form-label">Name</label>
-        </div>
-        <div class="col-9 col-sm-10">
-            <input type="text" class="form-control" id="name" name="name" [(ngModel)]="category.name">
-        </div>
-    </div>
-        <div class="row">
-        <div class="col-9 col-sm-10">
-            <button type="button" (click)="onSubmit()" class="btn btn-primary me-1">Add</button>
-            <button type="button" class="btn btn-secondary" routerLink="/categories">Cancel</button>
-        </div>
-    </div>
-</form>
