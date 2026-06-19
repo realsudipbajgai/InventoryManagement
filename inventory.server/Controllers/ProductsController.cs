@@ -1,4 +1,5 @@
-﻿using inventory.server.Services.Interface;
+﻿using DAL.Models;
+using inventory.server.Services.Interface;
 using inventory.server.Shared;
 using inventory.server.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -86,6 +87,25 @@ namespace inventory.server.Controllers
             catch (Exception ex)
             {
                 return BadRequest(new ApiResponse<object> { Success = false, Message = "Server error. Try again later" });
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var result = await _service.DeleteProduct(id);
+                if (!result)
+                {
+                    return BadRequest(new ApiResponse<object> { Success = false, Message = "Unable to Delete Product" });
+                }
+                return Ok(new ApiResponse<object> { Success = true, Data = result, Message = "Successfully Deleted" });
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse<object> { Success = false, Message = ex.Message });
             }
         }
     }

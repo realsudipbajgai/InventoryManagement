@@ -1,60 +1,90 @@
 <div class="container mt-4">
-  <h2>Add Product</h2>
-  
+  <h2 class="mb-4">Product Form</h2>
+
   <form [formGroup]="productForm" (submit)="onSubmit()" class="row g-3">
     
     <div class="col-md-6">
       <div class="form-floating">
-        <input type="text" class="form-control" id="name" formControlName="name" placeholder="Name">
+        <input type="text" class="form-control" id="name" formControlName="name" placeholder="Name"
+               [class.is-invalid]="productForm.get('name')?.invalid && productForm.get('name')?.touched">
         <label for="name">Product Name</label>
       </div>
+      <small class="text-danger" *ngIf="productForm.get('name')?.errors?.['required'] && productForm.get('name')?.touched">
+        Name is required
+      </small>
     </div>
 
     <div class="col-md-6">
       <div class="form-floating">
-        <input type="text" class="form-control" id="serialNumber" formControlName="serialNumber" placeholder="Serial Number">
+        <input type="text" class="form-control" id="serialNumber" formControlName="serialNumber" placeholder="Serial Number"
+               [class.is-invalid]="productForm.get('serialNumber')?.invalid && productForm.get('serialNumber')?.touched">
         <label for="serialNumber">Serial Number</label>
       </div>
+      <small class="text-danger" *ngIf="productForm.get('serialNumber')?.errors?.['required'] && productForm.get('serialNumber')?.touched">
+        Serial Number is required
+      </small>
     </div>
 
     <div class="col-md-6">
       <div class="form-floating">
-        <input type="number" class="form-control" id="purchaseCost" formControlName="purchaseCost" placeholder="Cost">
+        <input type="number" class="form-control" id="purchaseCost" formControlName="purchaseCost" placeholder="Cost"
+               [class.is-invalid]="productForm.get('purchaseCost')?.invalid && productForm.get('purchaseCost')?.touched">
         <label for="purchaseCost">Purchase Cost</label>
       </div>
-    </div>
-    <div class="col-md-6">
-      <div class="form-floating">
-        <input type="date" class="form-control" id="purchaseDate" formControlName="purchaseDate" placeholder="Date">
-        <label for="purchaseDate">Purchase Date</label>
-      </div>
+      <small class="text-danger" *ngIf="productForm.get('purchaseCost')?.errors?.['required'] && productForm.get('purchaseCost')?.touched">
+        Purchase Cost is required
+      </small>
     </div>
 
     <div class="col-md-6">
       <div class="form-floating">
-        <input type="text" class="form-control" id="status" formControlName="status" placeholder="Status">
-        <label for="status">Status</label>
+        <input type="date" class="form-control" id="purchaseDate" formControlName="purchaseDate" placeholder="Date"
+               [class.is-invalid]="productForm.get('purchaseDate')?.invalid && productForm.get('purchaseDate')?.touched">
+        <label for="purchaseDate">Purchase Date</label>
       </div>
+      <small class="text-danger" *ngIf="productForm.get('purchaseDate')?.errors?.['required'] && productForm.get('purchaseDate')?.touched">
+        Purchase Date is required
+      </small>
     </div>
+
     <div class="col-md-6">
       <div class="form-floating">
-        <select class="form-select" id="categoryId" formControlName="categoryId">
-          <option value="">Select Category</option>
+        <input type="text" class="form-control" id="status" formControlName="status" placeholder="Status"
+               [class.is-invalid]="productForm.get('status')?.invalid && productForm.get('status')?.touched">
+        <label for="status">Status</label>
+      </div>
+      <small class="text-danger" *ngIf="productForm.get('status')?.errors?.['required'] && productForm.get('status')?.touched">
+        Status is required
+      </small>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-floating">
+        <select class="form-select" id="categoryId" formControlName="categoryId"
+                [class.is-invalid]="productForm.get('categoryId')?.value == -1 && productForm.get('categoryId')?.touched">
+          <option value="-1">Select Category</option>
           <option *ngFor="let cat of categories$|async" [value]="cat.id">{{cat.name}}</option>
         </select>
         <label for="categoryId">Category</label>
       </div>
+      <small class="text-danger" *ngIf="productForm.get('categoryId')?.value == -1 && productForm.get('categoryId')?.touched">
+        Category is required
+      </small>
     </div>
 
     <div class="col-12">
       <div class="form-floating">
-        <textarea class="form-control" id="description" formControlName="description" placeholder="Description" style="height: 100px"></textarea>
+        <textarea class="form-control" id="description" formControlName="description" placeholder="Description" style="height: 100px"
+                  [class.is-invalid]="productForm.get('description')?.invalid && productForm.get('description')?.touched"></textarea>
         <label for="description">Description</label>
       </div>
+      <small class="text-danger" *ngIf="productForm.get('description')?.errors?.['required'] && productForm.get('description')?.touched">
+        Description is required
+      </small>
     </div>
 
     <div class="col-12 mt-3">
-      <button type="submit" class="btn btn-primary px-4 me-2">Save Product</button>
+      <button type="submit" class="btn btn-primary px-4 me-2" [disabled]="productForm.invalid">Save Product</button>
       <button type="button" class="btn btn-outline-secondary" routerLink="/products">Back</button>
     </div>
   </form>

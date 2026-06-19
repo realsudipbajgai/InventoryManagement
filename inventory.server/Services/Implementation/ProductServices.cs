@@ -54,6 +54,21 @@ namespace inventory.server.Services.Implementation
             return prodModel.toProductVM();
         }
 
+        public async Task<bool> DeleteProduct(int id)
+        {
+            Product? prodModel = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+            if (prodModel == null)
+            {
+                throw new KeyNotFoundException($"Product with ID{id} Not Found");
+            }
+            _context.Remove(prodModel);
+            int rowAffected = await _context.SaveChangesAsync();
+            if (rowAffected <= 0)
+            {
+                throw new Exception($"Unable to Delete. Try later");
+            }
+            return true;
+        }
 
     }
 }

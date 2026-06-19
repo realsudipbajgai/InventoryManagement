@@ -1,1 +1,65 @@
-<p>product-delete works!</p>
+<div class="container mt-4">
+    <div>
+        <h1 class="mb-1">Delete Product</h1>
+        <div>
+            <button class="btn btn-sm text-primary" routerLink="/products"><i class="bi bi-arrow-left-short"> Go
+                    Back</i>
+            </button>
+            <button class="btn btn-sm text-danger" (click)="onDelete()"><i class="bi bi-trash"> Delete
+                    </i>
+            </button>
+        
+        </div>
+    </div>
+    <div *ngIf="product$ | async as prod; else noData">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">{{ prod.name }}</h5>
+            </div>
+
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex">
+                    <div class="fw-bold col-sm-3">Category:</div>
+                    <div class="col-sm-9">{{ prod.category?.name || 'N/A' }}</div>
+                </li>
+                <li class="list-group-item d-flex">
+                    <div class="fw-bold col-sm-3">Serial Number:</div>
+                    <div class="col-sm-9">{{ prod.serialNumber }}</div>
+                </li>
+                <li class="list-group-item d-flex">
+                    <div class="fw-bold col-sm-3">Purchase Cost:</div>
+                    <div class="col-sm-9 text-success">${{ prod.purchaseCost | number:'1.2-2' }}</div>
+                </li>
+                <li class="list-group-item d-flex">
+                    <div class="fw-bold col-sm-3">Purchase Date:</div>
+                    <div class="col-sm-9">{{ prod.purchaseDate | date:'mediumDate' }}</div>
+                </li>
+                <li class="list-group-item d-flex">
+                    <div class="fw-bold col-sm-3">Status:</div>
+                    <div class="col-sm-9">
+                        <span class="badge bg-info text-dark">{{ prod.status }}</span>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex">
+                    <div class="fw-bold col-sm-3">Created At:</div>
+                    <div class="col-sm-9 text-muted">{{ prod.createdAt | date:'short' }}</div>
+                </li>
+                <li class="list-group-item d-flex">
+                    <div class="fw-bold col-sm-3">Updated At:</div>
+                    <div class="col-sm-9 text-muted">{{ prod.updatedAt | date:'short' }}</div>
+                </li>
+
+                <li class="list-group-item d-flex">
+                    <div class="fw-bold col-sm-3">Description:</div>
+                    <div class="col-sm-9">{{ prod.description || 'N/A' }}</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <ng-template #noData>
+        <div class="alert alert-warning">
+            No Product Data Found.
+        </div>
+    </ng-template>
+</div>

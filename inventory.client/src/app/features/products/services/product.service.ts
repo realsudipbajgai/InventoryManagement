@@ -44,4 +44,8 @@ export class ProductService {
     formData.append('categoryId',product.categoryId);
     return this._http.put(this._config.serverUrl+'/products',formData)
   }
+
+  deleteProduct(id:number):Observable<any>{
+    return this._http.delete(this._config.serverUrl+`/products/${id}`);
+  }
 }

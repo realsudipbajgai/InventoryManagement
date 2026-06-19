@@ -11,6 +11,8 @@ namespace inventory.server.Services.Interface
         Task<ProductVM> AddProduct(ProductVM productVM);
 
         Task<ProductVM> UpdateProduct(ProductVM productVM);
+
+        Task<bool> DeleteProduct(int id);
     }
 }
                 
