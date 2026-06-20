@@ -1,6 +1,8 @@
 using DAL.Data;
+using DAL.Models;
 using inventory.server.Services.Implementation;
 using inventory.server.Services.Interface;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +11,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 var corsPolicy = "AllowAngularApp";
 builder.Services.AddCors(options =>
@@ -20,7 +26,7 @@ builder.Services.AddCors(options =>
 });
 
 // Add services to the container.
-builder.Services.AddScoped<IUserServices, UserServices>();
+builder.Services.AddScoped<IEmployeeServices, Employeeervices>();
 builder.Services.AddScoped<IProductServices, ProductServices>();
 builder.Services.AddScoped<ICategoryServices, CategoryServices>();
 builder.Services.AddControllers();
@@ -41,11 +47,12 @@ app.UseHttpsRedirection();
 app.UseCors(corsPolicy);
 app.UseStaticFiles();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
 //Seed db
-DBSeeder.Seed(app);
+//DBSeeder.Seed(app);
 
 app.Run();

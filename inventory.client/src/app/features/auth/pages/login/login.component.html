@@ -1,0 +1,23 @@
+<form>
+  <div class="mb-3">
+    <label for="email" class="form-label">Email address</label>
+    <input type="email" class="form-control" id="email" name="email" required placeholder="name@example.com">
+  </div>
+
+  <div class="mb-3">
+    <label for="password" class="form-label">Password</label>
+    <div class="input-group">
+      <input [type]="showPassword?'text':'password'" class="form-control" id="password" name="password" required>
+      <button class="btn btn-outline-secondary" type="button" id="togglePassword" 
+      (click)="togglePassword()">{{showPassword?'Show':'Hide'}}</button>
+    </div>
+  </div>
+
+  <div class="mb-3 form-check">
+    <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe">
+    <label class="form-check-label" for="rememberMe">Remember me</label>
+  </div>
+
+  <button type="submit" class="btn btn-primary w-100">Sign In</button>
+</form>
+

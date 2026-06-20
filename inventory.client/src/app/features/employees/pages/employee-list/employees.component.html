@@ -1,0 +1,94 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="fw-bold m-0">Employees</h2>
+    <div class="btn-group">
+      <button class="btn btn-outline-secondary" (click)="seedTestEmployees()">
+        <i class="bi bi-database-add me-1"></i> Seed Data
+      </button>
+      <a routerLink="create" class="btn btn-primary">
+        <i class="bi bi-person-plus me-1"></i> Add New
+      </a>
+    </div>
+  </div>
+
+  <div class="card shadow-sm border-0">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th class="ps-4">#</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Role</th>
+              <th class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let employee of employees(); let i = index">
+              <td class="ps-4 text-muted">{{i + 1}}</td>
+              <td class="fw-semibold">{{employee.name}}</td>
+              <td>{{employee.email}}</td>
+              <td>{{employee.phone}}</td>
+              <td><span class="badge bg-primary-subtle text-primary">{{employee.role}}</span></td>
+              <td class="text-center">
+                <div class="btn-group btn-group-sm">
+                  <button class="btn btn-outline-secondary" title="Edit" [routerLink]="['edit', employee.id]">
+                    <i class="bi bi-pencil-square"></i>
+                  </button>
+                  <button class="btn btn-outline-info" title="Details" data-bs-toggle="modal" 
+                          data-bs-target="#employeedetails" (click)="onEmployeeDetailsClick(employee)">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                  <button class="btn btn-outline-danger" title="Delete" data-bs-toggle="modal" 
+                          data-bs-target="#employeedelete" (click)="onEmployeeDeleteClick(employee)">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="employeedetails" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" *ngIf="selectedEmployee() as employee">
+      <div class="modal-header bg-light">
+        <h5 class="modal-title">Employee Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center mb-3">
+          <img [src]="serverUrl + '/' + employee.photoPath" class="rounded-circle shadow-sm" width="100" height="100" alt="Profile">
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between"><span>Name:</span> <span class="fw-bold">{{employee.name}}</span></li>
+          <li class="list-group-item d-flex justify-content-between"><span>Email:</span> <span class="fw-bold">{{employee.email}}</span></li>
+          <li class="list-group-item d-flex justify-content-between"><span>Phone:</span> <span class="fw-bold">{{employee.phone}}</span></li>
+          <li class="list-group-item d-flex justify-content-between"><span>Role:</span> <span class="fw-bold">{{employee.role}}</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="employeedelete" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title">Confirm Deletion</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" *ngIf="selectedEmployee()">
+        Are you sure you want to delete <strong>{{selectedEmployee().name}}</strong>? This action cannot be undone.
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-danger" (click)="onDeleteConfirmation(selectedEmployee().id)" data-bs-dismiss="modal">Delete</button>
+      </div>
+    </div>

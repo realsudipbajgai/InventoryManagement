@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import {HomeComponent} from './shared/components/home/home.component';
-import { UsersComponent } from './features/users/pages/user-list/users.component';
-import { UserCreateComponent } from './features/users/pages/user-create/user-create.component';
-import { UserEditComponent } from './features/users/pages/user-edit/user-edit.component';
+import { EmployeesComponent } from './features/employees/pages/employee-list/employees.component';
+import { EmployeeCreateComponent } from './features/employees/pages/employee-create/employee-create.component';
+import { EmployeeEditComponent } from './features/employees/pages/employee-edit/employee-edit.component';
 import { CategoriesComponent } from './features/categories/pages/categories/categories.component';
 import { CategoryCreateComponent } from './features/categories/pages/category-create/category-create.component';
 import { CategoryEditComponent } from './features/categories/pages/category-edit/category-edit.component';
@@ -11,13 +11,16 @@ import { ProductCreateComponent } from './features/products/pages/product-create
 import { ProductEditComponent } from './features/products/pages/product-edit/product-edit.component';
 import { ProductDetailsComponent } from './features/products/pages/product-details/product-details.component';
 import { ProductDeleteComponent } from './features/products/pages/product-delete/product-delete.component';
+import { LoginComponent } from './features/auth/pages/login/login.component';
+import { RegisterComponent } from './features/auth/pages/register/register.component';
+import { LogoutComponent } from './features/auth/pages/logout/logout.component';
 
 export const routes: Routes = [
     {path:'',component:HomeComponent},
-    {path:'users',component:UsersComponent},
-    {path:'users/create',component:UserCreateComponent},
-    {path:'users/edit/:id',component:UserEditComponent},
-    {path:'users/seedtestusers',component:UsersComponent},
+    {path:'employees',component:EmployeesComponent},
+    {path:'employees/create',component:EmployeeCreateComponent},
+    {path:'employees/edit/:id',component:EmployeeEditComponent},
+    {path:'employees/seedtestusers',component:EmployeesComponent},
     {path:'products',component:ProductListComponent},
     {path:'categories',component:CategoriesComponent},
     {path:'categories/create',component:CategoryCreateComponent},
@@ -26,7 +29,10 @@ export const routes: Routes = [
     {path:'products/create',component:ProductCreateComponent},
     {path:'products/edit/:id',component:ProductEditComponent},
     {path:'products/details/:id',component:ProductDetailsComponent},
-    {path:'products/delete/:id',component:ProductDeleteComponent}
+    {path:'products/delete/:id',component:ProductDeleteComponent},
+    {path:'login',component:LoginComponent},
+    {path:'register',component:RegisterComponent},
+    {path:'logout',component:LogoutComponent},
 ];
 
 

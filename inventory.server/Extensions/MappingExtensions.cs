@@ -5,9 +5,9 @@ namespace inventory.server.Extensions
 {
     public static class UserMappingExtensions
     {
-        public static UserVM ToUserVM(this User user)
+        public static EmployeeVM ToEmployeeVM(this Employee user)
         {
-            return new UserVM
+            return new EmployeeVM
             {
                 Id = user.Id,
                 Name = user.Name,
@@ -20,9 +20,9 @@ namespace inventory.server.Extensions
             };
         } 
 
-        public static User toUser(this UserVM userVM)
+        public static Employee ToEmployee(this EmployeeVM userVM)
         {
-            return new User
+            return new Employee
             {
                 Id = userVM.Id,
                 Name = userVM.Name,

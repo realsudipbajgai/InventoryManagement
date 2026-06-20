@@ -17,20 +17,20 @@ namespace DAL.Data
             {
                 var context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
                 context.Database.EnsureCreated();
-                if (!context.Users.Any())
+                if (!context.Employees.Any())
                 {
                     context.AddRange(GetUsersList());
                     context.SaveChanges();
                 }
             }
         }
-        public static List<User> GetUsersList()
+        public static List<Employee> GetUsersList()
         {
-            var categories = new List<User>
+            var categories = new List<Employee>
             {
-                new User { Name="Admin",Email="admin@test.com",Phone="2042222222",Age=29,Role="Admin",Address="Nepal",PhotoPath="myfilepath" },
-                new User { Name="Manager",Email="manager@test.com",Phone="2042222222",Age=24,Role="Manager",Address="Nepal",PhotoPath="myfilepath" },
-                new User { Name="Employee",Email="employee@test.com",Phone="2042222222",Age=22,Role="Employee",Address="Nepal",PhotoPath="myfilepath" },
+                new Employee { Name="Admin",Email="admin@test.com",Phone="2042222222",Age=29,Role="Admin",Address="Nepal",PhotoPath="myfilepath" },
+                new Employee { Name="Manager",Email="manager@test.com",Phone="2042222222",Age=24,Role="Manager",Address="Nepal",PhotoPath="myfilepath" },
+                new Employee { Name="Employee",Email="employee@test.com",Phone="2042222222",Age=22,Role="Employee",Address="Nepal",PhotoPath="myfilepath" },
             };
             return categories;
         }
