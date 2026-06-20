@@ -1,13 +1,15 @@
-<form>
+<form #loginForm="ngForm" novalidate>
   <div class="mb-3">
     <label for="email" class="form-label">Email address</label>
-    <input type="email" class="form-control" id="email" name="email" required placeholder="name@example.com">
+    <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" [(ngModel)]="user.email" #emailCtrl="ngModel" required email>
+    <small *ngIf="emailCtrl.errors?.['required'] &&emailCtrl.touched" class="text-danger">Email is required</small>
+    <small *ngIf="emailCtrl.errors?.['email'] &&emailCtrl.touched" class="text-danger">Invalid Email Format</small>
   </div>
 
   <div class="mb-3">
     <label for="password" class="form-label">Password</label>
     <div class="input-group">
-      <input [type]="showPassword?'text':'password'" class="form-control" id="password" name="password" required>
+      <input [type]="showPassword?'text':'password'" class="form-control" id="password" name="password" [(ngModel)]="user.password">
       <button class="btn btn-outline-secondary" type="button" id="togglePassword" 
       (click)="togglePassword()">{{showPassword?'Show':'Hide'}}</button>
     </div>
@@ -18,6 +20,6 @@
     <label class="form-check-label" for="rememberMe">Remember me</label>
   </div>
 
-  <button type="submit" class="btn btn-primary w-100">Sign In</button>
+  <button type="submit" class="btn btn-primary w-100" (click)="login(loginForm)">Sign In</button>
 </form>
 
