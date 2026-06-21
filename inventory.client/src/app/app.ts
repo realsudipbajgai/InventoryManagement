@@ -1,5 +1,5 @@
 import { Component, signal,inject } from '@angular/core';
-import {RouterOutlet,RouterLink,RouterModule} from '@angular/router'
+import {RouterOutlet,RouterLink,RouterModule,Router} from '@angular/router'
 import { CommonModule } from '@angular/common';
 import { ToastComponent } from './shared/components/toast/toast.component';
 import { AuthService } from './features/auth/services/auth.service';
@@ -13,7 +13,13 @@ export class App {
   protected readonly title = signal('inventory.client');
 
   _auth=inject(AuthService);
+  _router=inject(Router);
   logout(){
     this._auth.logout();
+    this._router.navigate(['/login']);
+  }
+
+  goTologin(){
+    this._router.navigate(['/login']);
   }
 }
