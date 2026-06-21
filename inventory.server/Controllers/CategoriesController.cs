@@ -26,7 +26,7 @@ namespace inventory.server.Controllers
                 {
                     return Ok(new ApiResponse<object> { Success = true, Data = result, Message = "No Data Found" });
                 }
-                return Ok(new ApiResponse<object> { Success = true, Data = result, Message = "Data Fetch Successfull" });
+                return Ok(new ApiResponse<object> { Success = true, Data = result, Message = "Data Fetch Successfull. Testing Ci/CD" });
             }
             catch (Exception ex)
             {
