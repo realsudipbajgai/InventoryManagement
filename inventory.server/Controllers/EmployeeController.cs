@@ -4,12 +4,14 @@ using inventory.server.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using inventory.server.Shared;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace inventory.server.Controllers
 {
     [Route("api/users")]
     [ApiController]
+    [Authorize]
     public class EmployeeController : ControllerBase
     {
         private IEmployeeServices _service;

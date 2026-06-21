@@ -14,13 +14,14 @@ import { ProductDeleteComponent } from './features/products/pages/product-delete
 import { LoginComponent } from './features/auth/pages/login/login.component';
 import { RegisterComponent } from './features/auth/pages/register/register.component';
 import { LogoutComponent } from './features/auth/pages/logout/logout.component';
+import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
     {path:'',component:HomeComponent},
-    {path:'employees',component:EmployeesComponent},
-    {path:'employees/create',component:EmployeeCreateComponent},
-    {path:'employees/edit/:id',component:EmployeeEditComponent},
-    {path:'employees/seedtestusers',component:EmployeesComponent},
+    {path:'employees',component:EmployeesComponent,canActivate:[authGuard]},
+    {path:'employees/create',component:EmployeeCreateComponent,canActivate:[authGuard]},
+    {path:'employees/edit/:id',component:EmployeeEditComponent,canActivate:[authGuard]},
+    {path:'employees/seedtestusers',component:EmployeesComponent,canActivate:[authGuard]},
     {path:'products',component:ProductListComponent},
     {path:'categories',component:CategoriesComponent},
     {path:'categories/create',component:CategoryCreateComponent},

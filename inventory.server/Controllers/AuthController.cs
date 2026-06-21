@@ -1,4 +1,5 @@
 ﻿using DAL.Models;
+using inventory.server.Services.Interface;
 using inventory.server.Shared;
 using inventory.server.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -14,10 +15,16 @@ namespace inventory.server.Controllers
 
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signinManager;
-        public AuthController(UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser> signInManager)
+        private readonly IAuthService _authService;
+
+        public AuthController(UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            IAuthService authService
+            )
         {
             _userManager = userManager;
             _signinManager = signInManager;
+            _authService = authService;
         }
 
         [HttpPost]
@@ -41,24 +48,18 @@ namespace inventory.server.Controllers
         {
             try
             {
-                var user = await _userManager.FindByEmailAsync(userVM.Email);
-                if (user == null)
-                {
-                    return Unauthorized(new ApiResponse<object> { Success = false, Message = "Invalid email or password" });
-                }
-
-                var result = await _signinManager.CheckPasswordSignInAsync(user, userVM.Password, false);
-                if (!result.Succeeded)
-                {
-                    return Unauthorized(new ApiResponse<object> { Success = false, Message = "Invalid email or password" });
-                }
-                return Ok(new ApiResponse<object> { Success = true, Message = "Login Successful" });
+                var result = await _authService.Login(userVM);
+                return Ok(new ApiResponse<object> { Success = true, Data = new {token=result} ,Message = "Login Successful" });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return BadRequest(new ApiResponse<object> { Success=false,Message=ex.Message});
             }
             catch(Exception ex)
             {
-                return BadRequest("Not working");
+                return StatusCode(500,new ApiResponse<object> { Success = false, Message="Something Went Wrong" });
             }
-            
+
         }
     }
 }
