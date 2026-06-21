@@ -21,13 +21,27 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddDefaultTokenProviders();
 
 var corsPolicy = "AllowAngularApp";
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy(corsPolicy, policy =>
+//    {
+//        policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
+//    });
+//});
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(corsPolicy, policy =>
     {
-        policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
+        policy.WithOrigins(
+            "http://localhost:4200",
+            "https://your-app.vercel.app"
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod();
     });
 });
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
 // Add services to the container.
 builder.Services.AddScoped<IEmployeeServices, Employeeervices>();
