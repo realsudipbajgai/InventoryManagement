@@ -23,19 +23,26 @@ jobs:
         with:
           dotnet-version: '8.x'
 
-      - name: Build with dotnet
-        working-directory: inventory.server
-        run: dotnet build --configuration Release
+      # - name: Build with dotnet
+      #   run: dotnet build --configuration Release
+      - name: build
+        run: dotnet build inventory.server/inventory.server.csproj -c release
 
+      # - name: dotnet publish
+      #   run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
       - name: dotnet publish
-        working-directory: inventory.server
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+        run: dotnet publish inventory.server/inventory.server.csproj -c Release -o publish
 
-      - name: Upload artifact for deployment job
+      # - name: Upload artifact for deployment job
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: .net-app
+      #     path: ${{env.DOTNET_ROOT}}/myapp
+      - name: upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          name: dotnet-app
+          path: publish
 
   deploy:
     runs-on: windows-latest
@@ -57,11 +64,17 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_76837E94E906412A86DFDA7E4DC0BEA7 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_78542CA348904209B53CCACB250A11B0 }}
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
+      # - name: Deploy to Azure Web App
+      #   id: deploy-to-webapp
+      #   uses: azure/webapps-deploy@v3
+      #   with:
+      #     app-name: 'sdpinventory'
+      #     slot-name: 'Production'
+      #     package: .
+      - name: deploy to azure web app
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'sdpinventory'
-          slot-name: 'Production'
-          package: .
-          
+          app-name: sdpinventory
+          slot-name: production
+          package: publish
+                
