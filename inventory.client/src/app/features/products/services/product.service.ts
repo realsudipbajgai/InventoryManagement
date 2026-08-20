@@ -57,4 +57,8 @@ export class ProductService {
   getProductsByCategory(catId:number):Observable<any>{
     return this._http.get(this._config.serverUrl+`/products/productsbycategory/${catId}`);
   }
+
+  filterProducts(filter:any):Observable<any>{
+    return this._http.post(this._config.serverUrl+'/products/filter',filter);
+  }
 }

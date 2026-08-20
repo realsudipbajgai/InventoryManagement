@@ -81,6 +81,21 @@ namespace inventory.server.Services.Implementation
             return productsVM;
         }
 
+        public async Task<IEnumerable<ProductVM>> FilterProducts(ProductFilterVM filterVM)
+        {
+            var query = _context.Products.Include(p => p.Category).AsQueryable();
+            if (filterVM.CategoryId > 0)
+            {
+                query = query.Where(p => p.CategoryId == filterVM.CategoryId);
+            }
+            if (!string.IsNullOrEmpty(filterVM.SearchTerm))
+            {
+                query = query.Where(p => p.Name.Contains(filterVM.SearchTerm) || p.Description.Contains(filterVM.SearchTerm));
+            }
+            var products = await query.ToListAsync();
+            IEnumerable<ProductVM> productsVM = products.Select(p => p.toProductVM());
+            return productsVM;
+        }
 
     }
 }

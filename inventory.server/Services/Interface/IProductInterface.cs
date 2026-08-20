@@ -15,6 +15,7 @@ namespace inventory.server.Services.Interface
         Task<bool> DeleteProduct(int id);
 
         Task<IEnumerable<ProductVM>> GetProductsByCategoryId(int categoryId);
+        Task<IEnumerable<ProductVM>>FilterProducts(ProductFilterVM filterVM);
     }
 }
                 

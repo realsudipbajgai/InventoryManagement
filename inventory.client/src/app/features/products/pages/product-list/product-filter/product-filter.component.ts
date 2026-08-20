@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, output, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { ProductFilter } from '../../../../../shared/models/ProductFilter';
 
 @Component({
   selector: 'app-product-filter',
@@ -11,16 +12,15 @@ import { Observable } from 'rxjs';
 })
 export class ProductFilterComponent {
   @Input() categories$!: Observable<any>;
-  catId: number = -1;
-  searchTerm: string = '';
-  @Output() filterChanged = new EventEmitter<{ catId: number, searchTerm: string }>();
+  
+  @Output() filterChanged = new EventEmitter<ProductFilter>();
   @Output() filterCleared = new EventEmitter<void>();
+  filter:ProductFilter={ categoryId: null, searchTerm: '' };
   search() {
-    this.filterChanged.emit({ catId: this.catId, searchTerm: this.searchTerm });
+    this.filterChanged.emit(this.filter);
   }
   clear() {
-    this.searchTerm = '';
-    this.catId = -1;
+    this.filter = { categoryId: null, searchTerm: '' };
     this.filterCleared.emit();
   }
 }

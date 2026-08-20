@@ -8,6 +8,7 @@ import { Category } from '../../../../shared/models/Category';
 import { Product } from '../../../../shared/models/Product';
 import { ToastService } from '../../../../shared/services/toast.service';
 import { ProductFilterComponent } from "./product-filter/product-filter.component";
+import { ProductFilter } from '../../../../shared/models/ProductFilter';
 
 @Component({
   selector: 'app-product-list',
@@ -32,20 +33,12 @@ export class ProductListComponent {
   displayFilterBlock() {
     this.showFilter = !this.showFilter;
   }
-  onFilterChanged(filter: { catId: number, searchTerm: string }) {
-    console.log(filter.catId,filter.searchTerm);
+  onFilterChanged(filter: ProductFilter) {
+    console.log(filter);
     
-    if (filter.catId == -1 && filter.searchTerm === '') {
-      console.log("Load all");
-      this.products$ = this._prodServ.getAllProducts().pipe(map(
-        resp => resp.data
-      ))
-    }
-    else{
-      this.products$=this._prodServ.getProductsByCategory(filter.catId).pipe(map(
-        resp=>resp.data
-      ))
-    }
+    this.products$ = this._prodServ.filterProducts(filter).pipe(
+      map(resp => resp.data)
+    );
   }
   filterCleared(){
     this.products$ = this._prodServ.getAllProducts().pipe(map(

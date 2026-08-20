@@ -38,7 +38,7 @@ namespace inventory.server.Controllers
             try
             {
                 var result = await _service.GetProductById(id);
-                if(result==null)
+                if (result == null)
                 {
                     return NotFound(new ApiResponse<object> { Success = false, Message = "Unable to find the product" });
                 }
@@ -52,16 +52,16 @@ namespace inventory.server.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Products([FromForm]ProductVM productVm)
+        public async Task<IActionResult> Products([FromForm] ProductVM productVm)
         {
             try
             {
                 var result = await _service.AddProduct(productVm);
-                if (result == null) 
+                if (result == null)
                 {
                     return BadRequest(new ApiResponse<object> { Success = false, Message = "Unable to Add Product" });
                 }
-                return Ok(new ApiResponse<object> { Success = true, Data=result,Message = "Successfully added product to the database"});
+                return Ok(new ApiResponse<object> { Success = true, Data = result, Message = "Successfully added product to the database" });
 
             }
             catch (Exception ex)
@@ -114,15 +114,34 @@ namespace inventory.server.Controllers
         {
             try
             {
-                var result= await _service.GetProductsByCategoryId(categoryId);
+                var result = await _service.GetProductsByCategoryId(categoryId);
                 return Ok(new ApiResponse<object> { Success = true, Data = result, Message = "Products by category fetched successfully" });
             }
-            catch(KeyNotFoundException ex)
+            catch (KeyNotFoundException ex)
             {
-                return NotFound(new ApiResponse<object> { Success = false, Message = ex.Message});
+                return NotFound(new ApiResponse<object> { Success = false, Message = ex.Message });
             }
-            catch (Exception ex) {
-                return StatusCode(500,new ApiResponse<object> { Success = false, Message = "Oops something went wrong. Please try again" });
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ApiResponse<object> { Success = false, Message = "Oops something went wrong. Please try again" });
+            }
+        }
+
+        [HttpPost("filter")]
+        public async Task<IActionResult> FilterProducts([FromBody] ProductFilterVM filterVM)
+        {
+            try
+            {
+                var result = await _service.FilterProducts(filterVM);
+                return Ok(new ApiResponse<object> { Success = true, Data = result, Message = "Filtered products fetched successfully" });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return BadRequest(new ApiResponse<object> { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ApiResponse<object> { Success = false, Message = "Oops something went wrong. Please try again" });
             }
         }
     }
