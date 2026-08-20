@@ -15,6 +15,7 @@ import { LoginComponent } from './features/auth/pages/login/login.component';
 import { RegisterComponent } from './features/auth/pages/register/register.component';
 import { LogoutComponent } from './features/auth/pages/logout/logout.component';
 import { authGuard } from './guards/auth-guard';
+import { InventoryAdjustmentComponent } from './features/inventory/pages/inventory-adjustment/inventory-adjustment.component';
 
 export const routes: Routes = [
     {path:'',component:HomeComponent},
@@ -31,9 +32,11 @@ export const routes: Routes = [
     {path:'products/edit/:id',component:ProductEditComponent},
     {path:'products/details/:id',component:ProductDetailsComponent},
     {path:'products/delete/:id',component:ProductDeleteComponent},
+    {path:'products/inventoryadjustment/:id',component:InventoryAdjustmentComponent},
     {path:'login',component:LoginComponent},
     {path:'register',component:RegisterComponent},
     {path:'logout',component:LogoutComponent},
+    
 ];
 
 

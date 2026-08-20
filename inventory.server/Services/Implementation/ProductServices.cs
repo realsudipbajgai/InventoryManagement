@@ -70,5 +70,6 @@ namespace inventory.server.Services.Implementation
             return true;
         }
 
+
     }
 }

@@ -6,6 +6,7 @@ export interface Product{
     description:string,
     serialNumber:string,
     purchaseCost:string,
+    quantityInStock:number,
     purchaseDate:Date,
     status:string,
     createdAt?:Date,

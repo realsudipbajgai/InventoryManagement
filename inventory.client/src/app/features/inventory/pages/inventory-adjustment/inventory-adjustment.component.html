@@ -1,0 +1,85 @@
+<section class="inventory-adjustment">
+  <h2>Inventory Adjustment</h2>
+
+  <div *ngIf="isLoadingProduct()">Loading product details...</div>
+
+  <div *ngIf="!isLoadingProduct() && product()" class="product-details">
+    <h3>{{ product()!.name }}</h3>
+    <dl>
+      <dt>Description</dt>
+      <dd>{{ product()!.description }}</dd>
+
+      <dt>Serial Number</dt>
+      <dd>{{ product()!.serialNumber }}</dd>
+
+      <dt>Category</dt>
+      <dd>{{ product()!.category?.name ?? product()!.categoryId }}</dd>
+
+      <dt>Purchase Cost</dt>
+      <dd>{{ product()!.purchaseCost | currency }}</dd>
+
+      <dt>Purchase Date</dt>
+      <dd>{{ product()!.purchaseDate | date }}</dd>
+
+      <dt>Status</dt>
+      <dd>{{ product()!.status }}</dd>
+    </dl>
+  </div>
+
+  <div *ngIf="!isLoadingProduct() && !product()" class="text-danger">
+    Product details could not be loaded.
+  </div>
+
+  <form #adjustmentForm="ngForm" (ngSubmit)="submitAdjustment()" novalidate>
+    <div class="form-group">
+      <label for="transactionType">Adjustment Type</label>
+      <select
+        id="transactionType"
+        name="transactionType"
+        class="form-control"
+        [(ngModel)]="inventoryAdjData.transactionType"
+        required
+      >
+        <option value="" disabled>Select adjustment type</option>
+        <option value="Receive">Receive</option>
+        <option value="Issue">Issue</option>
+        <option value="Adjustment">Correction</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="quantity">Quantity</label>
+      <input
+        id="quantity"
+        name="quantity"
+        type="number"
+        class="form-control"
+        [(ngModel)]="inventoryAdjData.quantity"
+        required
+        min="1"
+        placeholder="Enter quantity"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="notes">Reason</label>
+      <textarea
+        id="notes"
+        name="notes"
+        class="form-control"
+        [(ngModel)]="inventoryAdjData.notes"
+        rows="4"
+        placeholder="Describe the reason for this adjustment"
+      ></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" [disabled]="adjustmentForm.invalid || !product()">
+        Submit Adjustment
+      </button>
+    </div>
+
+    <div *ngIf="submitSuccess()" class="text-success">Adjustment submitted successfully.</div>
+    <div *ngIf="submitError()" class="text-danger">{{ submitError() }}</div>
+  </form>
+</section>

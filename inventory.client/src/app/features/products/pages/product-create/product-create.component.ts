@@ -31,6 +31,7 @@ export class ProductCreateComponent {
     description: 'test description',
     serialNumber: 'test-t-1',
     purchaseCost: '0',
+    quantityInStock: 0,
     status: 'In Stock',
     purchaseDate: new Date(),
     categoryId: this.selectedCatId,
