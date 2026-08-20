@@ -1,0 +1,12 @@
+<form action="">
+    <div class="d-flex gap-2">
+        <input type="text" class="form-control form-control-sm" placeholder="Search by name or serial number"
+            [(ngModel)]="searchTerm" name="searchTerm">
+        <select class="form-control" [(ngModel)]="catId" name="catId">
+            <option value="-1" [selected]="true">Select Category</option>
+            <option value="{{cat.id}}" *ngFor="let cat of categories$|async">{{cat.name}}</option>
+        </select>
+        <button class="btn btn-sm btn-success" (click)="search()">Search</button>
+        <button class="btn btn-sm btn-warning" (click)="clear()">Clear</button>
+    </div>
+</form>

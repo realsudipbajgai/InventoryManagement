@@ -108,5 +108,22 @@ namespace inventory.server.Controllers
                 return BadRequest(new ApiResponse<object> { Success = false, Message = ex.Message });
             }
         }
+
+        [HttpGet("ProductsByCategory/{categoryId}")]
+        public async Task<IActionResult> GetProductByCategory(int categoryId)
+        {
+            try
+            {
+                var result= await _service.GetProductsByCategoryId(categoryId);
+                return Ok(new ApiResponse<object> { Success = true, Data = result, Message = "Products by category fetched successfully" });
+            }
+            catch(KeyNotFoundException ex)
+            {
+                return NotFound(new ApiResponse<object> { Success = false, Message = ex.Message});
+            }
+            catch (Exception ex) {
+                return StatusCode(500,new ApiResponse<object> { Success = false, Message = "Oops something went wrong. Please try again" });
+            }
+        }
     }
 }

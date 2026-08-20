@@ -70,6 +70,17 @@ namespace inventory.server.Services.Implementation
             return true;
         }
 
+        public async Task<IEnumerable<ProductVM>> GetProductsByCategoryId(int categoryId)
+        {
+            if (categoryId < 0)
+            {
+                throw new KeyNotFoundException("Category not found");
+            }
+            var products = await _context.Products.Where(p => p.CategoryId == categoryId).Include(p => p.Category).ToListAsync();
+            IEnumerable<ProductVM> productsVM = products.Select(p => p.toProductVM());
+            return productsVM;
+        }
+
 
     }
 }

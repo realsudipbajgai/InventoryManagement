@@ -53,4 +53,8 @@ export class ProductService {
   adjustInventory(model:InventoryAdjustment){
     return this._http.post(this._config.apiUrl+'/inventory/adjust', model);
   }
+
+  getProductsByCategory(catId:number):Observable<any>{
+    return this._http.get(this._config.serverUrl+`/products/productsbycategory/${catId}`);
+  }
 }

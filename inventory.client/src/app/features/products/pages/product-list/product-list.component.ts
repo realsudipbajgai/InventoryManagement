@@ -1,29 +1,55 @@
-import { Component,inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {RouterLink,Router} from '@angular/router';
-import {Observable,map} from 'rxjs';
+import { RouterLink, Router } from '@angular/router';
+import { Observable, map } from 'rxjs';
 import { ProductService } from '../../services/product.service';
 import { CategoryService } from '../../../categories/services/category.service';
-import {Category} from '../../../../shared/models/Category';
+import { Category } from '../../../../shared/models/Category';
 import { Product } from '../../../../shared/models/Product';
 import { ToastService } from '../../../../shared/services/toast.service';
+import { ProductFilterComponent } from "./product-filter/product-filter.component";
 
 @Component({
   selector: 'app-product-list',
-  imports: [RouterLink,CommonModule],
+  imports: [RouterLink, CommonModule, ProductFilterComponent],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
 })
 export class ProductListComponent {
-  _prodServ=inject(ProductService);
-  _catServ=inject(CategoryService);
-  _toast=inject(ToastService);
-  _router=inject(Router);
+  _prodServ = inject(ProductService);
+  _catServ = inject(CategoryService);
+  _toast = inject(ToastService);
+  _router = inject(Router);
 
-  categories$=this._catServ.getAllCategories().pipe(
-    map(resp=>resp.data)
+  showFilter = false;
+  categories$ = this._catServ.getAllCategories().pipe(
+    map(resp => resp.data)
   );
-   products$=this._prodServ.getAllProducts().pipe(
-    map(resp=>resp.data)
+  products$ = this._prodServ.getAllProducts().pipe(
+    map(resp => resp.data)
   );
+
+  displayFilterBlock() {
+    this.showFilter = !this.showFilter;
+  }
+  onFilterChanged(filter: { catId: number, searchTerm: string }) {
+    console.log(filter.catId,filter.searchTerm);
+    
+    if (filter.catId == -1 && filter.searchTerm === '') {
+      console.log("Load all");
+      this.products$ = this._prodServ.getAllProducts().pipe(map(
+        resp => resp.data
+      ))
+    }
+    else{
+      this.products$=this._prodServ.getProductsByCategory(filter.catId).pipe(map(
+        resp=>resp.data
+      ))
+    }
+  }
+  filterCleared(){
+    this.products$ = this._prodServ.getAllProducts().pipe(map(
+      resp => resp.data
+    ))
+  }
 }

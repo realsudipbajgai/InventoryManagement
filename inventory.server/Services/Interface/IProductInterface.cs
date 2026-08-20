@@ -13,6 +13,8 @@ namespace inventory.server.Services.Interface
         Task<ProductVM> UpdateProduct(ProductVM productVM);
 
         Task<bool> DeleteProduct(int id);
+
+        Task<IEnumerable<ProductVM>> GetProductsByCategoryId(int categoryId);
     }
 }
                 
