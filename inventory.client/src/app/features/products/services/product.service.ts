@@ -3,6 +3,7 @@ import { ConfigService } from '../../../shared/services/config.service';
 import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs';
 import { Product } from '../../../shared/models/Product';
+import { InventoryAdjustment } from '../../../shared/models/InventoryAdjustment';
 
 @Injectable({
   providedIn: 'root',
@@ -47,5 +48,9 @@ export class ProductService {
 
   deleteProduct(id:number):Observable<any>{
     return this._http.delete(this._config.serverUrl+`/products/${id}`);
+  }
+
+  adjustInventory(model:InventoryAdjustment){
+    return this._http.post(this._config.apiUrl+'/inventory/adjust', model);
   }
 }

@@ -16,10 +16,12 @@ namespace DAL.Models
         public string PurchaseCost { get; set; }
         public int QuantityInStock { get; set; }
         public DateTime PurchaseDate { get; set; }
-        public string Status { get; set; } 
-        public DateTime CreatedAt { get; set; } 
-        public DateTime UpdatedAt { get; set; } 
+        public string Status { get; set; }
+        public int ReorderLevel { get; set; } = 5;
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
 
         public Category Category { get; set; }
+        public ICollection<InventoryTransaction> InventoryTransactions { get; set; } = new List<InventoryTransaction>();
     }
 }
